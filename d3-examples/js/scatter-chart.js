@@ -1,18 +1,10 @@
-function updateData() {
-	numberOfPoints = 20;
-	maxValue = 300;
-	ds = [];
-	for (var i = 0; i < numberOfPoints; i++) {
-		ds.push([Math.round(Math.random() * maxValue), Math.round(Math.random() * maxValue)]);
-	}
-	return ds;
-}
 
-dataset = updateData();
+
+dataset = generateRandomData();
 
 w = 1000;
 h = 500;
-var svg = d3.select("body")
+var svg = d3.select("#scatter-chart")
 	.append("svg")
 	.attr("width", w)
 	.attr("height", h);
@@ -95,7 +87,7 @@ function updateChart() {
 		.call(yAxis);
 }
 
-d3.select("p").on("click", function() {
+d3.select("#scatter-chart-randomize").on("click", function() {
 	dataset = updateData();
 
 	updateChart();
