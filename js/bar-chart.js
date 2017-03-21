@@ -32,7 +32,7 @@ svg.selectAll("rect")
     .data(dataset) // capture references to all bars
     .enter() // returns elements that do not yet exist
     .append("rect")
-    .attr("fill", "yellowgreen")
+    .attr("fill", "teal")
 	.attr("width", xScale.bandwidth())
 	.attr("x", function(d, i) {
 		return xScale(i);
@@ -134,7 +134,7 @@ d3.select("#button-add-bar").on("click", function() {
         .append("rect")
         .attr("x", w) // put outside of svg for nice transition from outside
         .attr("width", xScale.bandwidth())
-        .attr("fill", "yellowgreen")
+        .attr("fill", "teal")
         .attr("y", function(d) { // change values, but not array length
             return h - yScale(d);
         })
