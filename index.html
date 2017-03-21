@@ -5,37 +5,16 @@
     <meta charset="utf-8">
     <title>D3 Page Template</title>
     <script type="text/javascript" src="d3/d3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
 <body>
-    <script type="text/javascript">
-        var dataset = [5, 10, 15, 20, 25];
-
-        d3.select("body")
-            .selectAll('p')
-            .data(dataset)
-            .enter()
-            .append('p')
-            .text(function(d) {
-                return "I can count up to " + d;
-            })
-            .style("color", function(d) {
-                if (d > 15) { //Threshold of 15
-                    return "red";
-                } else {
-                    return "black";
-                }
-            });
-    </script>
+    <p>
+        <button type="button" id="button-random">Update with random values</button>
+        <button type="button" id="button-add-bar">Add bar</button>
+        <button type="button" id="button-remove-bar">Remove bar</button>
+    </p>
+    <script type="text/javascript" src="js/bar-chart.js"></script>
 </body>
-
-<svg width="200" height="200">
-    <rect x="0" y="120" width="80" height="80" fill="purple" stroke="grey" stroke-width="2" opacity="1"></rect>
-    <rect x="30" y="90" width="80" height="80" fill="blue" stroke="grey" stroke-width="2" opacity="0.8"></rect>
-    <rect x="60" y="60" width="80" height="80" fill="green" stroke="grey" stroke-width="2" opacity="0.6"></rect>
-    <rect x="90" y="30" width="80" height="80" fill="yellow" stroke="grey" stroke-width="2" opacity="0.4"></rect>
-    <rect x="120" y="0" width="80" height="80" fill="red" stroke="grey" stroke-width="2" opacity="0.2"></rect>
-</svg>
 
 </html>
