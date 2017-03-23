@@ -229,13 +229,13 @@ function loadScatterplot() {
 					d3.select(this)
 						.attr("fill", cMap(d))
 						.attr("opacity", 1);
-					tip.attr('class', 'd3-tip animate').show(d);
+					tip.show(d);
 				})
 				.on("mouseout", function(d) {
 					// Restore original values
 					svg.selectAll("circle")
 						.attr("opacity", 0.7);
-					tip.attr('class', 'd3-tip').hide(d);
+					tip.hide(d);
 				});
 
 			// Update circles when user changes the dataset
