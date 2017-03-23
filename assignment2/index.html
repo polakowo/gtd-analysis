@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Social data analysis by polakowo</title>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+	<!-- Our CSS -->
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/d3.css">
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="card">
+			<div class="card-header">
+				<strong>Visualization 1:</strong> Crime in years 2013 and 2015 across San Francisco
+			</div>
+			<div class="card-block">
+				<p class="card-text">Discover <span class="badge badge-default">PROSTITUTION</span> vs <span class="badge badge-default">CRIME THEFT</span> in the area of San Francisco in the responsive scatterplot below. The size of each circle reflects the total number of crimes committed in the selected district and year.</p>
+				<p class="card-text">Switch between years <span class="badge badge-default">2013</span> and <span class="badge badge-default">2015</span> to get an idea how crime developed in each district.</p>
+				<p class="card-text">Hover over circle to see which district it belongs to. </p>
+				<div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-secondary active" id="input-year-2013">
+		    			<input type="radio" name="options" autocomplete="off"> Year 2013
+					</label>
+					<label class="btn btn-secondary" id="input-year-2015">
+						<input type="radio" name="options" autocomplete="off"> Year 2015
+					</label>
+				</div>
+				<div id="scatterplot">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery library -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<!-- Tether -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<!-- Latest D3 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.js"></script>
+
+	<!-- Initialize D3 functionality -->
+	<script src="js/d3-tip.js"></script>
+	<script src="js/scatterplot.js"></script>
+	<script>
+		loadScatterplot();
+	</script>
+</body>
+
+</html>

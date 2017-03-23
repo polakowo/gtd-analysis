@@ -1,7 +1,9 @@
-function loadBarChart() {
+// DO NOT FORGET PUTTING var BEFORE DECLARING VARIABLE, ELSE GLOBAL!!!
+
+function loadHistogram() {
+	var maxValue = 300;
 	function generateRandomData(number) {
-	    maxValue = 300;
-	    ds = [];
+	    var ds = [];
 		for (var i = 0; i < number; i++) {
 			ds.push({
 	            key: i,
@@ -11,12 +13,12 @@ function loadBarChart() {
 	    return ds;
 	}
 
-	numberOfBars = 20;
-	dataset = generateRandomData(numberOfBars);
+	var numberOfBars = 20;
+	var dataset = generateRandomData(numberOfBars);
 
-	w = 1000;
-	h = 300;
-	var svg = d3.select("#bar-chart")
+	var w = 800;
+	var h = 300;
+	var svg = d3.select("#histogram")
 	    .append("svg")
 	    .attr("width", w)
 	    .attr("height", h);
@@ -43,7 +45,7 @@ function loadBarChart() {
 	    .data(dataset, key) // capture references to all bars
 	    .enter() // returns elements that do not yet exist
 	    .append("rect")
-	    .attr("fill", "teal")
+	    .attr("fill", "orange")
 	    .attr("width", xScale.bandwidth())
 	    .attr("x", function(d, i) {
 	        return xScale(i);
@@ -69,7 +71,7 @@ function loadBarChart() {
 	    svg.selectAll("rect")
 	        .data(dataset, key) // work on all bars
 	        .transition()
-	        .duration(500)
+			.duration(500)
 	        .attr("width", xScale.bandwidth())
 	        .attr("x", function(d, i) {
 	            return xScale(i);
@@ -78,7 +80,7 @@ function loadBarChart() {
 	    svg.selectAll("text")
 	        .data(dataset, key)
 	        .transition()
-	        .duration(500)
+			.duration(500)
 	        .attr("x", function(d, i) {
 	            return xScale(i) + xScale.bandwidth() / 2;
 	        });
@@ -94,7 +96,7 @@ function loadBarChart() {
 	        .data(dataset, key)
 	        .transition()
 	        .delay(function(d, i) {
-	            return i / dataset.length * 1000;
+	            return i / dataset.length * 500;
 	        })
 	        .duration(500)
 	        .ease(d3.easeCubic)
@@ -103,16 +105,13 @@ function loadBarChart() {
 	        })
 	        .attr("height", function(d) {
 	            return yScale(d.value);
-	        })
-	        .attr("opacity", function(d) {
-	            return yScale(d.value) / h;
 	        });
 
 	    svg.selectAll("text")
 	        .data(dataset, key)
 	        .transition()
 	        .delay(function(d, i) {
-	            return i / dataset.length * 1000;
+	            return i / dataset.length * 500;
 	        })
 	        .duration(500)
 	        .ease(d3.easeCubic)
@@ -127,7 +126,7 @@ function loadBarChart() {
 	// We cannot put updateX() here as transitions are asynchronous
 	updateY(); // here comes visualization of Y
 
-	d3.select("#bar-chart-randomize").on("click", function() {
+	d3.select("#histogram-randomize").on("click", function() {
 		for (var i = 0; i < dataset.length; i++) {
 			dataset[i].value = Math.round(Math.random() * maxValue);
 		}
@@ -135,7 +134,7 @@ function loadBarChart() {
 	    updateY();
 	});
 
-	d3.select("#bar-chart-add").on("click", function() {
+	d3.select("#histogram-add").on("click", function() {
 	    var maxValue = 300;
 	    dataset.push({
 	        key: d3.max(dataset, function(d) {
@@ -156,15 +155,12 @@ function loadBarChart() {
 	        .append("rect")
 	        .attr("x", w) // put outside of svg for nice transition from outside
 	        .attr("width", xScale.bandwidth())
-	        .attr("fill", "teal")
+	        .attr("fill", "orange")
 	        .attr("y", function(d) { // change values, but not array length
 	            return h - yScale(d.value);
 	        })
 	        .attr("height", function(d) {
 	            return yScale(d.value);
-	        })
-	        .attr("opacity", function(d) {
-	            return yScale(d.value) / h;
 	        });
 
 	    svg.selectAll("text")
@@ -187,7 +183,7 @@ function loadBarChart() {
 	    updateX();
 	});
 
-	d3.select("#bar-chart-remove").on("click", function() {
+	d3.select("#histogram-remove").on("click", function() {
 	    dataset.shift();
 
 	    svg.selectAll("rect")
