@@ -206,7 +206,7 @@ function loadHistogram() {
 			.selectAll("a")
 			.data(Object.keys(grouped_data).sort())
 			.enter()
-			.append("a")
+			.append("button")
 			.classed("dropdown-item", true)
 			.text(function(d) {
 				return d;
