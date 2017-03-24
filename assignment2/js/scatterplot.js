@@ -7,7 +7,7 @@ function loadScatterplot() {
 		.width();
 	var svgH = 0.5 * svgW;
 	var margin = {
-			left: 40,
+			left: 60,
 			top: 20,
 			right: 20,
 			bottom: 40
@@ -59,17 +59,6 @@ function loadScatterplot() {
 		return d3.color(cScale(d.district));
 	};
 
-	// Method for sending elements back (will be applied on dashed lines)
-	// https://github.com/wbkd/d3-extended
-	d3.selection.prototype.moveToBack = function() {
-		return this.each(function() {
-			var firstChild = this.parentNode.firstChild;
-			if (firstChild) {
-				this.parentNode.insertBefore(this, firstChild);
-			}
-		});
-	};
-
 	// Setup tooltip
 	var tip = d3.tip()
 		.attr("class", "d3-tip")
@@ -106,7 +95,7 @@ function loadScatterplot() {
 			changeFormat(crime_2015);
 
 			// Inital dataset
-			var data = crime_2013;
+			var dataset = crime_2013;
 
 			// We want the same scale for 2013 and 2015
 			min = function(attr) {
@@ -158,7 +147,7 @@ function loadScatterplot() {
 			// Append text to svg, not axis
 			svg.append("text")
 				.attr("x", width)
-				.attr("y", height - 6)
+				.attr("y", height + margin.bottom)
 				.attr("text-anchor", "end")
 				.attr("font-size", "12px")
 				.attr("font-style", "italic")
@@ -170,50 +159,35 @@ function loadScatterplot() {
 				.call(yAxis);
 			svg.append("text")
 				.attr("transform", "rotate(-90)")
-				.attr("y", 6)
+				.attr("y", -margin.left)
 				.attr("dy", ".71em")
 				.attr("text-anchor", "end")
 				.attr("font-size", "12px")
 				.attr("font-style", "italic")
 				.text("VEHICLE THEFT");
 
-			// Draw grid
-			var line = d3.line()
-				.x(xMap)
-				.y(yMap);
-
-			// gridlines in x axis function
-			function make_x_gridlines() {
-				return d3.axisBottom(xScale)
-					.ticks(5);
-			}
-
-			// gridlines in y axis function
-			function make_y_gridlines() {
-				return d3.axisLeft(yScale)
-					.ticks(5);
-			}
-
 			// add the X gridlines
+			var xGridAxis = d3.axisBottom(xScale)
+				.ticks(5)
+				.tickSize(-height)
+				.tickFormat("");
 			svg.append("g")
-				.attr("class", "grid")
+				.attr("class", "x grid")
 				.attr("transform", "translate(0," + height + ")")
-				.call(make_x_gridlines()
-					.tickSize(-height)
-					.tickFormat("")
-				);
+				.call(xGridAxis);
 
 			// add the Y gridlines
+			var yGridAxis = d3.axisLeft(yScale)
+				.ticks(5)
+				.tickSize(-width)
+				.tickFormat("");
 			svg.append("g")
-				.attr("class", "grid")
-				.call(make_y_gridlines()
-					.tickSize(-width)
-					.tickFormat("")
-				);
+				.attr("class", "y grid")
+				.call(yGridAxis);
 
 			// Append circles
 			svg.selectAll("circle")
-				.data(data, key)
+				.data(dataset, key)
 				.enter()
 				.append("circle")
 				.attr("opacity", 0.7)
@@ -222,26 +196,24 @@ function loadScatterplot() {
 					return cMap(d).darker(0.5);
 				})
 				.on("mouseover", function(d) {
-					// Make all circles less visible
-					svg.selectAll("circle")
-						.attr("opacity", 0.5);
 					// Increase visibility of focus circle
 					d3.select(this)
-						.attr("fill", cMap(d))
 						.attr("opacity", 1);
 					tip.show(d);
 				})
 				.on("mouseout", function(d) {
 					// Restore original values
-					svg.selectAll("circle")
+					d3.select(this)
 						.attr("opacity", 0.7);
 					tip.hide(d);
 				});
 
 			// Update circles when user changes the dataset
 			function updateCircles() {
+				// We don't need to update scales here as they are the same for both datasets
+
 				svg.selectAll("circle")
-					.data(data, key)
+					.data(dataset, key)
 					.sort(function(x, y) {
 						// Put small circles on top to make them accessible for mouseover event
 						return d3.descending(x.total, y.total);
@@ -264,13 +236,13 @@ function loadScatterplot() {
 
 			d3.select("#input-year-2013")
 				.on("click", function() {
-					data = crime_2013;
+					dataset = crime_2013;
 
 					updateCircles();
 				});
 			d3.select("#input-year-2015")
 				.on("click", function() {
-					data = crime_2015;
+					dataset = crime_2015;
 
 					updateCircles();
 				});

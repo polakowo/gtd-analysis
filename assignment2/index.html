@@ -20,12 +20,16 @@
 	<div class="container">
 		<div class="card">
 			<div class="card-header">
-				<strong>Visualization 1:</strong> Crime in years 2013 and 2015 across San Francisco
+				<strong>Visualization 1:</strong> Discover prostitution against vehicle theft in SF (2013-2015)
 			</div>
 			<div class="card-block">
-				<p class="card-text">Discover <span class="badge badge-default">PROSTITUTION</span> vs <span class="badge badge-default">CRIME THEFT</span> in the area of San Francisco in the responsive scatterplot below. The size of each circle reflects the total number of crimes committed in the selected district and year.</p>
-				<p class="card-text">Switch between years <span class="badge badge-default">2013</span> and <span class="badge badge-default">2015</span> to get an idea how crime developed in each district.</p>
-				<p class="card-text">Hover over circle to see which district it belongs to. </p>
+				<p class="card-text">Take a look at <span class="badge badge-danger">Prostitution</span> vs <span class="badge badge-danger">Crime Theft</span> in the area of San Francisco in the responsive scatterplot below. The main question we want to answer here is <em>"How both crimes developed over time?"</em></p>
+				<p class="card-text">Features:</p>
+				<ul>
+					<li>Switch between years <span class="badge badge-default">2013</span> and <span class="badge badge-default">2015</span> to get an idea how crime developed in each district</li>
+					<li>Hover over circle to see which district it belongs to</li>
+					<li>The size of each circle reflects the total number of crimes committed in the selected district and year</li>
+				</ul>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-secondary active" id="input-year-2013">
 		    			<input type="radio" name="options" autocomplete="off"> Year 2013
@@ -35,6 +39,31 @@
 					</label>
 				</div>
 				<div id="scatterplot">
+
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="card">
+			<div class="card-header">
+				<strong>Visualization 2:</strong> <span>Discover temporal developments of crime</span>
+			</div>
+			<div class="card-block">
+				<p class="card-text">This visualization aims at temporal patterns of crimes across <span class="badge badge-default">24h</span> of the day. The main question we want to answer is <em>"If we knew that a crime is about to happen in SF, at which time it happens most likely?"</em></p>
+				<p class="card-text">Features:</p>
+				<ul>
+					<li>Choose the focus category from the dropdown</li>
+					<li>Hover over bar to see how many crimes of this type were committed at the given hour</li>
+					<li>Each bar reflects the probability of a crime to happen at the given hour</li>
+				</ul>
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    				</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="category-dropdown">
+
+					</div>
+				</div>
+				<div id="histogram">
 
 				</div>
 			</div>
@@ -55,6 +84,10 @@
 	<script src="js/scatterplot.js"></script>
 	<script>
 		loadScatterplot();
+	</script>
+	<script src="js/histogram.js"></script>
+	<script>
+		loadHistogram();
 	</script>
 </body>
 
