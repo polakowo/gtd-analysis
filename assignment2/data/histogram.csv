@@ -1,0 +1,920 @@
+category,time,count
+Arson,0,231
+Arson,1,219
+Arson,2,249
+Arson,3,230
+Arson,4,191
+Arson,5,154
+Arson,6,102
+Arson,7,80
+Arson,8,84
+Arson,9,69
+Arson,10,78
+Arson,11,76
+Arson,12,95
+Arson,13,107
+Arson,14,108
+Arson,15,124
+Arson,16,114
+Arson,17,142
+Arson,18,135
+Arson,19,153
+Arson,20,178
+Arson,21,173
+Arson,22,216
+Arson,23,227
+Assault,0,10019
+Assault,1,8609
+Assault,2,7826
+Assault,3,3952
+Assault,4,2475
+Assault,5,1940
+Assault,6,2605
+Assault,7,3852
+Assault,8,5973
+Assault,9,6538
+Assault,10,7279
+Assault,11,7673
+Assault,12,9634
+Assault,13,8351
+Assault,14,8489
+Assault,15,9515
+Assault,16,9317
+Assault,17,9535
+Assault,18,9371
+Assault,19,9103
+Assault,20,9019
+Assault,21,9393
+Assault,22,9029
+Assault,23,8569
+Bad Checks,0,155
+Bad Checks,1,3
+Bad Checks,2,2
+Bad Checks,3,3
+Bad Checks,4,3
+Bad Checks,5,2
+Bad Checks,6,3
+Bad Checks,7,12
+Bad Checks,8,48
+Bad Checks,9,64
+Bad Checks,10,58
+Bad Checks,11,46
+Bad Checks,12,182
+Bad Checks,13,45
+Bad Checks,14,47
+Bad Checks,15,59
+Bad Checks,16,48
+Bad Checks,17,40
+Bad Checks,18,20
+Bad Checks,19,20
+Bad Checks,20,11
+Bad Checks,21,9
+Bad Checks,22,8
+Bad Checks,23,5
+Bribery,0,39
+Bribery,1,24
+Bribery,2,26
+Bribery,3,19
+Bribery,4,8
+Bribery,5,8
+Bribery,6,6
+Bribery,7,10
+Bribery,8,14
+Bribery,9,32
+Bribery,10,38
+Bribery,11,31
+Bribery,12,37
+Bribery,13,39
+Bribery,14,38
+Bribery,15,35
+Bribery,16,45
+Bribery,17,49
+Bribery,18,26
+Bribery,19,42
+Bribery,20,42
+Bribery,21,42
+Bribery,22,47
+Bribery,23,40
+Burglary,0,3159
+Burglary,1,2045
+Burglary,2,2168
+Burglary,3,2172
+Burglary,4,1944
+Burglary,5,1775
+Burglary,6,1866
+Burglary,7,2955
+Burglary,8,4631
+Burglary,9,4020
+Burglary,10,3712
+Burglary,11,3503
+Burglary,12,4718
+Burglary,13,3100
+Burglary,14,3423
+Burglary,15,3994
+Burglary,16,4420
+Burglary,17,5908
+Burglary,18,5950
+Burglary,19,4430
+Burglary,20,3868
+Burglary,21,3738
+Burglary,22,3529
+Burglary,23,3287
+Disorderly Conduct,0,505
+Disorderly Conduct,1,374
+Disorderly Conduct,2,330
+Disorderly Conduct,3,214
+Disorderly Conduct,4,153
+Disorderly Conduct,5,389
+Disorderly Conduct,6,969
+Disorderly Conduct,7,861
+Disorderly Conduct,8,649
+Disorderly Conduct,9,493
+Disorderly Conduct,10,425
+Disorderly Conduct,11,374
+Disorderly Conduct,12,380
+Disorderly Conduct,13,368
+Disorderly Conduct,14,339
+Disorderly Conduct,15,325
+Disorderly Conduct,16,300
+Disorderly Conduct,17,285
+Disorderly Conduct,18,310
+Disorderly Conduct,19,258
+Disorderly Conduct,20,244
+Disorderly Conduct,21,280
+Disorderly Conduct,22,372
+Disorderly Conduct,23,403
+Driving Under The Influence,0,685
+Driving Under The Influence,1,625
+Driving Under The Influence,2,618
+Driving Under The Influence,3,272
+Driving Under The Influence,4,103
+Driving Under The Influence,5,58
+Driving Under The Influence,6,65
+Driving Under The Influence,7,42
+Driving Under The Influence,8,46
+Driving Under The Influence,9,45
+Driving Under The Influence,10,23
+Driving Under The Influence,11,44
+Driving Under The Influence,12,53
+Driving Under The Influence,13,63
+Driving Under The Influence,14,67
+Driving Under The Influence,15,96
+Driving Under The Influence,16,133
+Driving Under The Influence,17,171
+Driving Under The Influence,18,179
+Driving Under The Influence,19,225
+Driving Under The Influence,20,259
+Driving Under The Influence,21,352
+Driving Under The Influence,22,479
+Driving Under The Influence,23,612
+Drug/Narcotic,0,3634
+Drug/Narcotic,1,2198
+Drug/Narcotic,2,1783
+Drug/Narcotic,3,1198
+Drug/Narcotic,4,880
+Drug/Narcotic,5,446
+Drug/Narcotic,6,1289
+Drug/Narcotic,7,2912
+Drug/Narcotic,8,3888
+Drug/Narcotic,9,4565
+Drug/Narcotic,10,5119
+Drug/Narcotic,11,5680
+Drug/Narcotic,12,5904
+Drug/Narcotic,13,7666
+Drug/Narcotic,14,8722
+Drug/Narcotic,15,7993
+Drug/Narcotic,16,8408
+Drug/Narcotic,17,8641
+Drug/Narcotic,18,7704
+Drug/Narcotic,19,6560
+Drug/Narcotic,20,5022
+Drug/Narcotic,21,4727
+Drug/Narcotic,22,5588
+Drug/Narcotic,23,4778
+Drunkenness,0,805
+Drunkenness,1,763
+Drunkenness,2,636
+Drunkenness,3,251
+Drunkenness,4,128
+Drunkenness,5,42
+Drunkenness,6,77
+Drunkenness,7,161
+Drunkenness,8,157
+Drunkenness,9,168
+Drunkenness,10,197
+Drunkenness,11,277
+Drunkenness,12,277
+Drunkenness,13,274
+Drunkenness,14,314
+Drunkenness,15,349
+Drunkenness,16,419
+Drunkenness,17,499
+Drunkenness,18,551
+Drunkenness,19,526
+Drunkenness,20,549
+Drunkenness,21,601
+Drunkenness,22,715
+Drunkenness,23,715
+Embezzlement,0,594
+Embezzlement,1,11
+Embezzlement,2,7
+Embezzlement,3,12
+Embezzlement,4,12
+Embezzlement,5,7
+Embezzlement,6,11
+Embezzlement,7,35
+Embezzlement,8,207
+Embezzlement,9,203
+Embezzlement,10,154
+Embezzlement,11,110
+Embezzlement,12,467
+Embezzlement,13,96
+Embezzlement,14,115
+Embezzlement,15,127
+Embezzlement,16,111
+Embezzlement,17,128
+Embezzlement,18,104
+Embezzlement,19,75
+Embezzlement,20,50
+Embezzlement,21,54
+Embezzlement,22,32
+Embezzlement,23,36
+Extortion,0,73
+Extortion,1,11
+Extortion,2,12
+Extortion,3,8
+Extortion,4,4
+Extortion,5,7
+Extortion,6,8
+Extortion,7,15
+Extortion,8,24
+Extortion,9,27
+Extortion,10,59
+Extortion,11,35
+Extortion,12,70
+Extortion,13,45
+Extortion,14,38
+Extortion,15,40
+Extortion,16,31
+Extortion,17,27
+Extortion,18,24
+Extortion,19,28
+Extortion,20,19
+Extortion,21,23
+Extortion,22,24
+Extortion,23,19
+Family Offenses,0,65
+Family Offenses,1,25
+Family Offenses,2,22
+Family Offenses,3,9
+Family Offenses,4,5
+Family Offenses,5,4
+Family Offenses,6,8
+Family Offenses,7,28
+Family Offenses,8,45
+Family Offenses,9,43
+Family Offenses,10,62
+Family Offenses,11,69
+Family Offenses,12,62
+Family Offenses,13,87
+Family Offenses,14,83
+Family Offenses,15,99
+Family Offenses,16,73
+Family Offenses,17,67
+Family Offenses,18,54
+Family Offenses,19,60
+Family Offenses,20,37
+Family Offenses,21,47
+Family Offenses,22,38
+Family Offenses,23,38
+Forgery/Counterfeiting,0,3502
+Forgery/Counterfeiting,1,195
+Forgery/Counterfeiting,2,123
+Forgery/Counterfeiting,3,95
+Forgery/Counterfeiting,4,68
+Forgery/Counterfeiting,5,53
+Forgery/Counterfeiting,6,138
+Forgery/Counterfeiting,7,268
+Forgery/Counterfeiting,8,1089
+Forgery/Counterfeiting,9,1414
+Forgery/Counterfeiting,10,1192
+Forgery/Counterfeiting,11,1049
+Forgery/Counterfeiting,12,3262
+Forgery/Counterfeiting,13,1398
+Forgery/Counterfeiting,14,1276
+Forgery/Counterfeiting,15,1509
+Forgery/Counterfeiting,16,1361
+Forgery/Counterfeiting,17,1270
+Forgery/Counterfeiting,18,848
+Forgery/Counterfeiting,19,604
+Forgery/Counterfeiting,20,557
+Forgery/Counterfeiting,21,431
+Forgery/Counterfeiting,22,372
+Forgery/Counterfeiting,23,301
+Fraud,0,5235
+Fraud,1,696
+Fraud,2,465
+Fraud,3,285
+Fraud,4,182
+Fraud,5,179
+Fraud,6,329
+Fraud,7,651
+Fraud,8,1830
+Fraud,9,2021
+Fraud,10,1953
+Fraud,11,1570
+Fraud,12,4698
+Fraud,13,2127
+Fraud,14,1983
+Fraud,15,2330
+Fraud,16,2044
+Fraud,17,2099
+Fraud,18,1869
+Fraud,19,1463
+Fraud,20,1267
+Fraud,21,1017
+Fraud,22,1024
+Fraud,23,1112
+Gambling,0,20
+Gambling,1,1
+Gambling,2,2
+Gambling,3,2
+Gambling,4,1
+Gambling,5,4
+Gambling,6,2
+Gambling,7,5
+Gambling,8,11
+Gambling,9,11
+Gambling,10,20
+Gambling,11,27
+Gambling,12,31
+Gambling,13,29
+Gambling,14,27
+Gambling,15,30
+Gambling,16,19
+Gambling,17,20
+Gambling,18,22
+Gambling,19,12
+Gambling,20,8
+Gambling,21,6
+Gambling,22,9
+Gambling,23,8
+Kidnapping,0,315
+Kidnapping,1,247
+Kidnapping,2,250
+Kidnapping,3,171
+Kidnapping,4,95
+Kidnapping,5,97
+Kidnapping,6,77
+Kidnapping,7,126
+Kidnapping,8,148
+Kidnapping,9,194
+Kidnapping,10,203
+Kidnapping,11,166
+Kidnapping,12,245
+Kidnapping,13,210
+Kidnapping,14,211
+Kidnapping,15,237
+Kidnapping,16,250
+Kidnapping,17,256
+Kidnapping,18,276
+Kidnapping,19,249
+Kidnapping,20,255
+Kidnapping,21,272
+Kidnapping,22,251
+Kidnapping,23,285
+Larceny/Theft,0,17002
+Larceny/Theft,1,10466
+Larceny/Theft,2,6910
+Larceny/Theft,3,4254
+Larceny/Theft,4,2762
+Larceny/Theft,5,2770
+Larceny/Theft,6,4397
+Larceny/Theft,7,7009
+Larceny/Theft,8,11779
+Larceny/Theft,9,13890
+Larceny/Theft,10,17135
+Larceny/Theft,11,18835
+Larceny/Theft,12,24449
+Larceny/Theft,13,21679
+Larceny/Theft,14,22561
+Larceny/Theft,15,24199
+Larceny/Theft,16,25221
+Larceny/Theft,17,28702
+Larceny/Theft,18,33840
+Larceny/Theft,19,31673
+Larceny/Theft,20,27480
+Larceny/Theft,21,23326
+Larceny/Theft,22,23028
+Larceny/Theft,23,21149
+Liquor Laws,0,193
+Liquor Laws,1,93
+Liquor Laws,2,88
+Liquor Laws,3,39
+Liquor Laws,4,27
+Liquor Laws,5,13
+Liquor Laws,6,36
+Liquor Laws,7,82
+Liquor Laws,8,116
+Liquor Laws,9,118
+Liquor Laws,10,147
+Liquor Laws,11,156
+Liquor Laws,12,200
+Liquor Laws,13,197
+Liquor Laws,14,171
+Liquor Laws,15,183
+Liquor Laws,16,267
+Liquor Laws,17,439
+Liquor Laws,18,349
+Liquor Laws,19,278
+Liquor Laws,20,175
+Liquor Laws,21,192
+Liquor Laws,22,225
+Liquor Laws,23,218
+Loitering,0,77
+Loitering,1,62
+Loitering,2,44
+Loitering,3,36
+Loitering,4,21
+Loitering,5,89
+Loitering,6,144
+Loitering,7,136
+Loitering,8,124
+Loitering,9,99
+Loitering,10,114
+Loitering,11,114
+Loitering,12,109
+Loitering,13,136
+Loitering,14,124
+Loitering,15,90
+Loitering,16,136
+Loitering,17,167
+Loitering,18,145
+Loitering,19,112
+Loitering,20,86
+Loitering,21,88
+Loitering,22,56
+Loitering,23,74
+Missing Person,0,1938
+Missing Person,1,885
+Missing Person,2,729
+Missing Person,3,444
+Missing Person,4,318
+Missing Person,5,438
+Missing Person,6,1038
+Missing Person,7,3359
+Missing Person,8,4085
+Missing Person,9,3327
+Missing Person,10,3328
+Missing Person,11,3128
+Missing Person,12,4178
+Missing Person,13,3132
+Missing Person,14,3233
+Missing Person,15,3782
+Missing Person,16,3425
+Missing Person,17,3265
+Missing Person,18,3307
+Missing Person,19,2744
+Missing Person,20,2637
+Missing Person,21,2486
+Missing Person,22,2423
+Missing Person,23,2046
+Non-Criminal,0,9907
+Non-Criminal,1,5382
+Non-Criminal,2,4213
+Non-Criminal,3,2860
+Non-Criminal,4,2062
+Non-Criminal,5,2076
+Non-Criminal,6,3801
+Non-Criminal,7,6290
+Non-Criminal,8,9409
+Non-Criminal,9,10528
+Non-Criminal,10,11734
+Non-Criminal,11,11740
+Non-Criminal,12,16098
+Non-Criminal,13,12585
+Non-Criminal,14,12531
+Non-Criminal,15,13104
+Non-Criminal,16,13169
+Non-Criminal,17,12243
+Non-Criminal,18,11600
+Non-Criminal,19,10109
+Non-Criminal,20,9372
+Non-Criminal,21,9254
+Non-Criminal,22,9157
+Non-Criminal,23,8448
+Other Offenses,0,17379
+Other Offenses,1,8334
+Other Offenses,2,6853
+Other Offenses,3,4519
+Other Offenses,4,3390
+Other Offenses,5,2697
+Other Offenses,6,3909
+Other Offenses,7,7758
+Other Offenses,8,12065
+Other Offenses,9,13627
+Other Offenses,10,13292
+Other Offenses,11,13088
+Other Offenses,12,18364
+Other Offenses,13,14479
+Other Offenses,14,14527
+Other Offenses,15,15342
+Other Offenses,16,16943
+Other Offenses,17,17736
+Other Offenses,18,16252
+Other Offenses,19,13798
+Other Offenses,20,11971
+Other Offenses,21,12069
+Other Offenses,22,14927
+Other Offenses,23,14404
+Pornography/Obscene Mat,0,4
+Pornography/Obscene Mat,2,3
+Pornography/Obscene Mat,3,2
+Pornography/Obscene Mat,6,2
+Pornography/Obscene Mat,8,2
+Pornography/Obscene Mat,9,3
+Pornography/Obscene Mat,10,1
+Pornography/Obscene Mat,11,2
+Pornography/Obscene Mat,12,4
+Pornography/Obscene Mat,13,1
+Pornography/Obscene Mat,14,7
+Pornography/Obscene Mat,15,2
+Pornography/Obscene Mat,16,4
+Pornography/Obscene Mat,17,1
+Pornography/Obscene Mat,18,3
+Pornography/Obscene Mat,20,1
+Pornography/Obscene Mat,21,3
+Pornography/Obscene Mat,22,5
+Pornography/Obscene Mat,23,1
+Prostitution,0,1315
+Prostitution,1,1020
+Prostitution,2,750
+Prostitution,3,517
+Prostitution,4,454
+Prostitution,5,571
+Prostitution,6,514
+Prostitution,7,265
+Prostitution,8,148
+Prostitution,9,158
+Prostitution,10,189
+Prostitution,11,211
+Prostitution,12,443
+Prostitution,13,325
+Prostitution,14,286
+Prostitution,15,209
+Prostitution,16,270
+Prostitution,17,575
+Prostitution,18,1155
+Prostitution,19,1338
+Prostitution,20,1067
+Prostitution,21,1265
+Prostitution,22,1557
+Prostitution,23,1568
+Recovered Vehicle,0,332
+Recovered Vehicle,1,241
+Recovered Vehicle,2,200
+Recovered Vehicle,3,185
+Recovered Vehicle,4,143
+Recovered Vehicle,5,94
+Recovered Vehicle,6,118
+Recovered Vehicle,7,389
+Recovered Vehicle,8,434
+Recovered Vehicle,9,526
+Recovered Vehicle,10,504
+Recovered Vehicle,11,522
+Recovered Vehicle,12,572
+Recovered Vehicle,13,474
+Recovered Vehicle,14,410
+Recovered Vehicle,15,365
+Recovered Vehicle,16,479
+Recovered Vehicle,17,406
+Recovered Vehicle,18,331
+Recovered Vehicle,19,310
+Recovered Vehicle,20,252
+Recovered Vehicle,21,229
+Recovered Vehicle,22,285
+Recovered Vehicle,23,288
+Robbery,0,2811
+Robbery,1,2851
+Robbery,2,3001
+Robbery,3,1812
+Robbery,4,1175
+Robbery,5,1001
+Robbery,6,963
+Robbery,7,875
+Robbery,8,993
+Robbery,9,1174
+Robbery,10,1334
+Robbery,11,1517
+Robbery,12,1794
+Robbery,13,1927
+Robbery,14,2040
+Robbery,15,2320
+Robbery,16,2554
+Robbery,17,2506
+Robbery,18,2652
+Robbery,19,2845
+Robbery,20,3168
+Robbery,21,3627
+Robbery,22,3584
+Robbery,23,3348
+Runaway,0,113
+Runaway,1,51
+Runaway,2,39
+Runaway,3,19
+Runaway,4,17
+Runaway,5,18
+Runaway,6,69
+Runaway,7,232
+Runaway,8,262
+Runaway,9,191
+Runaway,10,210
+Runaway,11,193
+Runaway,12,223
+Runaway,13,208
+Runaway,14,203
+Runaway,15,238
+Runaway,16,248
+Runaway,17,232
+Runaway,18,296
+Runaway,19,244
+Runaway,20,248
+Runaway,21,202
+Runaway,22,199
+Runaway,23,168
+Secondary Codes,0,1363
+Secondary Codes,1,772
+Secondary Codes,2,739
+Secondary Codes,3,518
+Secondary Codes,4,365
+Secondary Codes,5,277
+Secondary Codes,6,396
+Secondary Codes,7,598
+Secondary Codes,8,925
+Secondary Codes,9,968
+Secondary Codes,10,977
+Secondary Codes,11,1055
+Secondary Codes,12,1413
+Secondary Codes,13,1093
+Secondary Codes,14,1051
+Secondary Codes,15,1197
+Secondary Codes,16,1202
+Secondary Codes,17,1214
+Secondary Codes,18,1291
+Secondary Codes,19,1205
+Secondary Codes,20,1253
+Secondary Codes,21,1220
+Secondary Codes,22,1210
+Secondary Codes,23,1059
+"Sex Offenses, Forcible",0,1316
+"Sex Offenses, Forcible",1,521
+"Sex Offenses, Forcible",2,551
+"Sex Offenses, Forcible",3,357
+"Sex Offenses, Forcible",4,198
+"Sex Offenses, Forcible",5,163
+"Sex Offenses, Forcible",6,135
+"Sex Offenses, Forcible",7,192
+"Sex Offenses, Forcible",8,362
+"Sex Offenses, Forcible",9,361
+"Sex Offenses, Forcible",10,335
+"Sex Offenses, Forcible",11,308
+"Sex Offenses, Forcible",12,524
+"Sex Offenses, Forcible",13,386
+"Sex Offenses, Forcible",14,399
+"Sex Offenses, Forcible",15,514
+"Sex Offenses, Forcible",16,492
+"Sex Offenses, Forcible",17,498
+"Sex Offenses, Forcible",18,435
+"Sex Offenses, Forcible",19,389
+"Sex Offenses, Forcible",20,499
+"Sex Offenses, Forcible",21,459
+"Sex Offenses, Forcible",22,517
+"Sex Offenses, Forcible",23,544
+"Sex Offenses, Non Forcible",0,72
+"Sex Offenses, Non Forcible",1,6
+"Sex Offenses, Non Forcible",2,2
+"Sex Offenses, Non Forcible",3,2
+"Sex Offenses, Non Forcible",4,1
+"Sex Offenses, Non Forcible",5,3
+"Sex Offenses, Non Forcible",6,6
+"Sex Offenses, Non Forcible",7,5
+"Sex Offenses, Non Forcible",8,17
+"Sex Offenses, Non Forcible",9,17
+"Sex Offenses, Non Forcible",10,12
+"Sex Offenses, Non Forcible",11,20
+"Sex Offenses, Non Forcible",12,37
+"Sex Offenses, Non Forcible",13,18
+"Sex Offenses, Non Forcible",14,20
+"Sex Offenses, Non Forcible",15,26
+"Sex Offenses, Non Forcible",16,16
+"Sex Offenses, Non Forcible",17,14
+"Sex Offenses, Non Forcible",18,18
+"Sex Offenses, Non Forcible",19,11
+"Sex Offenses, Non Forcible",20,15
+"Sex Offenses, Non Forcible",21,12
+"Sex Offenses, Non Forcible",22,13
+"Sex Offenses, Non Forcible",23,17
+Stolen Property,0,515
+Stolen Property,1,370
+Stolen Property,2,307
+Stolen Property,3,237
+Stolen Property,4,211
+Stolen Property,5,162
+Stolen Property,6,179
+Stolen Property,7,273
+Stolen Property,8,340
+Stolen Property,9,364
+Stolen Property,10,405
+Stolen Property,11,473
+Stolen Property,12,617
+Stolen Property,13,584
+Stolen Property,14,618
+Stolen Property,15,671
+Stolen Property,16,703
+Stolen Property,17,706
+Stolen Property,18,685
+Stolen Property,19,559
+Stolen Property,20,536
+Stolen Property,21,471
+Stolen Property,22,490
+Stolen Property,23,452
+Suicide,0,42
+Suicide,1,40
+Suicide,2,27
+Suicide,3,22
+Suicide,4,15
+Suicide,5,21
+Suicide,6,30
+Suicide,7,42
+Suicide,8,46
+Suicide,9,61
+Suicide,10,65
+Suicide,11,67
+Suicide,12,63
+Suicide,13,69
+Suicide,14,66
+Suicide,15,75
+Suicide,16,58
+Suicide,17,63
+Suicide,18,65
+Suicide,19,66
+Suicide,20,56
+Suicide,21,64
+Suicide,22,39
+Suicide,23,38
+Suspicious Occ,0,4734
+Suspicious Occ,1,2014
+Suspicious Occ,2,1836
+Suspicious Occ,3,1291
+Suspicious Occ,4,869
+Suspicious Occ,5,701
+Suspicious Occ,6,1148
+Suspicious Occ,7,1850
+Suspicious Occ,8,3220
+Suspicious Occ,9,3627
+Suspicious Occ,10,3606
+Suspicious Occ,11,3711
+Suspicious Occ,12,5510
+Suspicious Occ,13,3934
+Suspicious Occ,14,3940
+Suspicious Occ,15,4278
+Suspicious Occ,16,4099
+Suspicious Occ,17,3904
+Suspicious Occ,18,3838
+Suspicious Occ,19,3424
+Suspicious Occ,20,3119
+Suspicious Occ,21,3107
+Suspicious Occ,22,2987
+Suspicious Occ,23,2580
+Trea,2,2
+Trea,5,1
+Trea,6,1
+Trea,7,1
+Trea,10,1
+Trea,11,1
+Trea,12,1
+Trea,16,1
+Trea,17,1
+Trea,19,1
+Trea,20,1
+Trea,22,1
+Trespass,0,518
+Trespass,1,374
+Trespass,2,404
+Trespass,3,334
+Trespass,4,237
+Trespass,5,493
+Trespass,6,1082
+Trespass,7,1154
+Trespass,8,1072
+Trespass,9,963
+Trespass,10,941
+Trespass,11,887
+Trespass,12,966
+Trespass,13,911
+Trespass,14,802
+Trespass,15,885
+Trespass,16,816
+Trespass,17,840
+Trespass,18,781
+Trespass,19,705
+Trespass,20,666
+Trespass,21,661
+Trespass,22,561
+Trespass,23,492
+Vandalism,0,6015
+Vandalism,1,4231
+Vandalism,2,3995
+Vandalism,3,2619
+Vandalism,4,1729
+Vandalism,5,1424
+Vandalism,6,1654
+Vandalism,7,2256
+Vandalism,8,3317
+Vandalism,9,3089
+Vandalism,10,3188
+Vandalism,11,3023
+Vandalism,12,4138
+Vandalism,13,3185
+Vandalism,14,3621
+Vandalism,15,4302
+Vandalism,16,4741
+Vandalism,17,6401
+Vandalism,18,7569
+Vandalism,19,6810
+Vandalism,20,6804
+Vandalism,21,6997
+Vandalism,22,7105
+Vandalism,23,6537
+Vehicle Theft,0,4513
+Vehicle Theft,1,3113
+Vehicle Theft,2,2467
+Vehicle Theft,3,1516
+Vehicle Theft,4,1166
+Vehicle Theft,5,1176
+Vehicle Theft,6,1721
+Vehicle Theft,7,3004
+Vehicle Theft,8,4275
+Vehicle Theft,9,4188
+Vehicle Theft,10,3918
+Vehicle Theft,11,3505
+Vehicle Theft,12,5143
+Vehicle Theft,13,3663
+Vehicle Theft,14,4335
+Vehicle Theft,15,5094
+Vehicle Theft,16,6049
+Vehicle Theft,17,8051
+Vehicle Theft,18,9807
+Vehicle Theft,19,8556
+Vehicle Theft,20,8984
+Vehicle Theft,21,8716
+Vehicle Theft,22,9182
+Vehicle Theft,23,8008
+Warrants,0,3830
+Warrants,1,2630
+Warrants,2,2158
+Warrants,3,1661
+Warrants,4,1266
+Warrants,5,908
+Warrants,6,1568
+Warrants,7,3029
+Warrants,8,3572
+Warrants,9,4166
+Warrants,10,4508
+Warrants,11,4818
+Warrants,12,5113
+Warrants,13,5453
+Warrants,14,5628
+Warrants,15,5508
+Warrants,16,6039
+Warrants,17,6200
+Warrants,18,5642
+Warrants,19,4902
+Warrants,20,3973
+Warrants,21,3807
+Warrants,22,4598
+Warrants,23,4216
+Weapon Laws,0,1032
+Weapon Laws,1,753
+Weapon Laws,2,674
+Weapon Laws,3,397
+Weapon Laws,4,292
+Weapon Laws,5,159
+Weapon Laws,6,231
+Weapon Laws,7,401
+Weapon Laws,8,551
+Weapon Laws,9,723
+Weapon Laws,10,732
+Weapon Laws,11,863
+Weapon Laws,12,991
+Weapon Laws,13,988
+Weapon Laws,14,1002
+Weapon Laws,15,1132
+Weapon Laws,16,1203
+Weapon Laws,17,1165
+Weapon Laws,18,1265
+Weapon Laws,19,1160
+Weapon Laws,20,1087
+Weapon Laws,21,1090
+Weapon Laws,22,1166
+Weapon Laws,23,1101

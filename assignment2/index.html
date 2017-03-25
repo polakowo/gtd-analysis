@@ -27,8 +27,8 @@
 				<p class="card-text">Features:</p>
 				<ul>
 					<li>Switch between years <span class="badge badge-default">2013</span> and <span class="badge badge-default">2015</span> to get an idea how crime developed in each district</li>
-					<li>Hover over circle to see which district it belongs to</li>
 					<li>The size of each circle reflects the total number of crimes committed in the selected district and year</li>
+					<li>Hover over circle to see which district it belongs to</li>
 				</ul>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-secondary active" id="input-year-2013">
@@ -46,24 +46,76 @@
 		<br>
 		<div class="card">
 			<div class="card-header">
-				<strong>Visualization 2:</strong> <span>Discover temporal developments of crime</span>
+				<strong>Visualization 2 (optional):</strong> <span>Discover temporal development of crimes</span>
 			</div>
 			<div class="card-block">
-				<p class="card-text">This visualization aims at temporal patterns of crimes across <span class="badge badge-default">24h</span> of the day. The main question we want to answer is <em>"If we knew that a crime is about to happen in SF, at which time it happens most likely?"</em></p>
+				<p class="card-text">This visualization aims at temporal patterns of crimes across <span class="badge badge-default">24h</span> of the day. The main question we want to answer is <em>"If we knew that a crime is about to happen in SF, at which time it happens the most likely?"</em></p>
 				<p class="card-text">Features:</p>
 				<ul>
 					<li>Choose the focus category from the dropdown</li>
-					<li>Hover over bar to see how many crimes of this type were committed at the given hour</li>
-					<li>Each bar reflects the probability of a crime to happen at the given hour</li>
+					<li>Each bar reflects the overall number of crimes committed at this hour</li>
+					<li>The exact number you find by hovering over the bar</li>
 				</ul>
 				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="histogram-category-menu-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     				</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="category-dropdown">
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="histogram-category-dropdown">
 
 					</div>
 				</div>
 				<div id="histogram">
+
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="card">
+			<div class="card-header">
+				<strong>Visualization 3:</strong> Discover clustering of crimes using K-means<span></span>
+			</div>
+			<div class="card-block">
+				<p class="card-text">This visualization divides crimes into geographical groups. The main question we want to answer is <em>"Are there geographical patterns to be discovered?" and "What are key areas for crimes in SF?"</em></p>
+				<p class="card-text">Features:</p>
+				<ul>
+					<li>Choose the focus category from the dropdown</li>
+					<li>Color (see legend) of district reflects the number of crimes committed</li>
+					<li>The exact number you find by hovering over the district</li>
+				</ul>
+				<div class="btn-group">
+					<div class="btn-group">
+						<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" id="kmeans-k-menu-button">
+    					</button>
+						<ul class="dropdown-menu" role="menu" id="kmeans-k-dropdown">
+						</ul>
+					</div>
+				</div>
+				<div id="kmeans">
+
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="card">
+			<div class="card-header">
+				<strong>Visualization 4 (optional):</strong> Discover distribution of crimes using Choropleth<span></span>
+			</div>
+			<div class="card-block">
+				<p class="card-text">This visualization aims at distribution of crimes across SF. The main question we want to answer is <em>"If we knew that a crime is about to happen in SF, in which district it happens the most likely?"</em></p>
+				<p class="card-text">Features:</p>
+				<ul>
+					<li>Choose the focus category from the dropdown</li>
+					<li>Color (see legend) of district reflects the number of crimes committed</li>
+					<li>The exact number you find by hovering over the district</li>
+				</ul>
+				<div class="btn-group">
+					<div class="btn-group">
+						<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" id="choropleth-menu-button">
+    					</button>
+						<ul class="dropdown-menu" role="menu" id="choropleth-dropdown">
+						</ul>
+					</div>
+				</div>
+				<div id="choropleth">
 
 				</div>
 			</div>
@@ -77,18 +129,16 @@
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<!-- Latest D3 -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<!-- Hexbin -->
+	<script src="https://d3js.org/d3-hexbin.v0.2.min.js"></script>
 
 	<!-- Initialize D3 functionality -->
 	<script src="js/d3-tip.js"></script>
 	<script src="js/scatterplot.js"></script>
-	<script>
-		loadScatterplot();
-	</script>
 	<script src="js/histogram.js"></script>
-	<script>
-		loadHistogram();
-	</script>
+	<script src="js/kmeans.js"></script>
+	<script src="js/choropleth.js"></script>
 </body>
 
 </html>
