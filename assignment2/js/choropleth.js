@@ -50,7 +50,7 @@ function loadChoropleth() {
 		};
 
 		// Prepare and group data by category
-		grouped_data = {};
+		var grouped_data = {};
 		data.forEach(function(d, i) {
 			d.count = +getCount(d);
 			var group = getCategory(d);
@@ -64,6 +64,7 @@ function loadChoropleth() {
 		});
 
 		// Set initial data category
+		var categories = Object.keys(grouped_data).sort();
 		var init_category = 'Prostitution';
 		var dataset = grouped_data[init_category];
 
@@ -362,7 +363,7 @@ function loadChoropleth() {
 				.text(init_category);
 			d3.select("#choropleth-dropdown")
 				.selectAll("li")
-				.data(Object.keys(grouped_data).sort())
+				.data(categories)
 				.enter()
 				.append("li")
 				.append("button")
