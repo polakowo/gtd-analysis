@@ -158,7 +158,7 @@ function loadKMeans() {
 				///////////////////////////////////////////////////////////////////////////
 				////////////////////////////// Draw the map ///////////////////////////////
 				///////////////////////////////////////////////////////////////////////////
-				
+
 				svg.selectAll("path")
 					.data(json.features)
 					.enter()
@@ -169,6 +169,50 @@ function loadKMeans() {
 					.attr("fill", "lightgrey")
 					.attr("opacity", 0.7)
 					.attr("d", path);
+
+				///////////////////////////////////////////////////////////////////////////
+				///////////////////////////// Draw the labels /////////////////////////////
+				///////////////////////////////////////////////////////////////////////////
+
+				// Get average coordinates of each district
+				labels = [];
+				json.features.forEach(function(d, i) {
+					var coordinates;
+					// There is one MultiPolygon (SOUTHERN district)
+					if (d.geometry.type == "MultiPolygon") {
+						coordinates = d.geometry.coordinates[1][0];
+					} else {
+						coordinates = d.geometry.coordinates[0];
+					}
+					var minMaxX = d3.extent(coordinates, function(c) {
+						return projection(c)[0];
+					});
+					var minMaxY = d3.extent(coordinates, function(c) {
+						return projection(c)[1];
+					});
+					labels.push({
+						district: d.properties.DISTRICT,
+						x: 0.5 * minMaxX[0] + 0.5 * minMaxX[1],
+						y: 0.5 * minMaxY[0] + 0.5 * minMaxY[1]
+					});
+				});
+
+				svg.selectAll(".district-label")
+					.data(labels)
+					.enter()
+					.append("text")
+					.classed("district-label", true)
+					.attr("x", function(d) {
+						return d.x;
+					})
+					.attr("y", function(d) {
+						return d.y;
+					})
+					.attr("opacity", 0.7)
+					.attr("fill", d3.color("lightgrey").darker(1.5))
+					.text(function(d) {
+						return d.district;
+					});
 
 				///////////////////////////////////////////////////////////////////////////
 				////////////////////////////// Draw the bins //////////////////////////////

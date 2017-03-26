@@ -2,6 +2,13 @@ svg text {
 	pointer-events: none;
 }
 
+.district-label {
+	text-anchor: middle;
+	font-size: 12px;
+	font-style: italic;
+	font-weight: bold;
+}
+
 .d3-tip {
     line-height: 1;
     font-size: 12px;

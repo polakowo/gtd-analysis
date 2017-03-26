@@ -136,6 +136,146 @@ function loadChoropleth() {
 
 			updateColourRange();
 
+			///////////////////////////////////////////////////////////////////////////
+			////////////////////////////// Draw the map ///////////////////////////////
+			///////////////////////////////////////////////////////////////////////////
+
+			// 3D space is “projected” onto a 2D plane
+			var projection = d3.geoMercator()
+				.center([-122.433701, 37.767683])
+				.scale(230000) // default scale is 1000 (which is the world level)
+				.translate([width / 2, height / 2]); // translate to the center of the SVG
+
+			// Transform features in GeoJSON to SVG paths (creates a function)
+			var path = d3.geoPath()
+				.projection(projection);
+
+			svg.selectAll(".district")
+				.data(json.features)
+				.enter()
+				.append("path")
+				.classed("district", true)
+				.attr("clip-path", "url(#choropleth-area)")
+				.attr("stroke", "white")
+				.attr("stroke-width", 2)
+				.attr("fill", "lightgrey")
+				.attr("opacity", 0.7)
+				.on("mouseover", function(d) {
+					svg.selectAll(".district")
+						.attr("opacity", function(d2) {
+							if (d2.properties.DISTRICT == d.properties.DISTRICT) {
+								return 1;
+							} else {
+								return 0.3;
+							}
+						});
+					svg.selectAll(".district-label")
+						.attr("opacity", function(l) {
+							if (l.district == d.properties.DISTRICT) {
+								return 1;
+							} else {
+								return 0.3;
+							}
+						});
+					tip.show({
+						district: d.properties.DISTRICT,
+						count: d.properties.count,
+						total: countSum(),
+						fill: colorScaleRainbow(d.properties.count)
+					});
+				})
+				.on("mouseout", function(d) {
+					svg.selectAll("path")
+						.attr("opacity", 0.7);
+					svg.selectAll(".district-label")
+						.attr("opacity", 0.7);
+					tip.hide({
+						district: d.properties.DISTRICT,
+						count: d.properties.count,
+						total: countSum(),
+						fill: colorScaleRainbow(d.properties.count)
+					});
+				})
+				.attr("d", path);
+
+			function updateMap() {
+				svg.selectAll("path")
+					.data(json.features)
+					.transition()
+					.duration(1000)
+					.attr("fill", function(d) {
+						// get data value
+						var count = d.properties.count;
+						if (count) {
+							return colorScaleRainbow(count);
+						} else {
+							return "#ccc";
+						}
+					});
+			}
+
+			updateMap();
+
+			///////////////////////////////////////////////////////////////////////////
+			///////////////////////////// Draw the labels /////////////////////////////
+			///////////////////////////////////////////////////////////////////////////
+
+			// Get average coordinates of each district
+			labels = [];
+			json.features.forEach(function(d, i) {
+				var coordinates;
+				// There is one MultiPolygon (SOUTHERN district)
+				if (d.geometry.type == "MultiPolygon") {
+					coordinates = d.geometry.coordinates[1][0];
+				} else {
+					coordinates = d.geometry.coordinates[0];
+				}
+				var minMaxX = d3.extent(coordinates, function(c) {
+					return projection(c)[0];
+				});
+				var minMaxY = d3.extent(coordinates, function(c) {
+					return projection(c)[1];
+				});
+				labels.push({
+					district: d.properties.DISTRICT,
+					x: 0.5 * minMaxX[0] + 0.5 * minMaxX[1],
+					y: 0.5 * minMaxY[0] + 0.5 * minMaxY[1]
+				});
+			});
+
+			svg.selectAll(".district-label")
+				.data(labels)
+				.enter()
+				.append("text")
+				.classed("district-label", true)
+				.attr("x", function(d) {
+					return d.x;
+				})
+				.attr("y", function(d) {
+					return d.y;
+				})
+				.attr("opacity", 0.7)
+				.attr("fill", "lightgrey")
+				.text(function(d) {
+					return d.district;
+				});
+
+			function updateLabels() {
+				svg.selectAll(".district-label")
+					.transition()
+					.duration(1000)
+					.attr("fill", function(d, i) { // make color dependent on color of district
+						// get data value
+						var count = json.features[i].properties.count;
+						if (count) {
+							return d3.color(colorScaleRainbow(count)).darker(1.5);
+						} else {
+							return d3.color("#ccc").darker(1.5);
+						}
+					});
+			}
+
+			updateLabels();
 
 			///////////////////////////////////////////////////////////////////////////
 			/////////////////////////////// Draw the legend ///////////////////////////
@@ -187,81 +327,17 @@ function loadChoropleth() {
 			var gX = legendsvg.append("g")
 				.attr("class", "x axis") //Assign "axis" class
 				.attr("clip-path", "url(#choropleth-axis-area)")
+
 				.attr("transform", "translate(" + (-legendWidth / 2) + "," + (10 + legendHeight) + ")");
 
 			function updateGradientScale() {
 				xScale.domain([0, countMax()]);
 				gX.transition()
 					.duration(1000)
-					.call(xAxis); // IMPORTANT!!! D3 JS Axis Chart Bug, the first CENTRAL district disappears!!!
+					.call(xAxis);
 			}
 
 			updateGradientScale();
-
-			///////////////////////////////////////////////////////////////////////////
-			////////////////////////////// Draw the map ///////////////////////////////
-			///////////////////////////////////////////////////////////////////////////
-
-			// 3D space is “projected” onto a 2D plane
-			var projection = d3.geoMercator()
-				.center([-122.433701, 37.767683])
-				.scale(230000) // default scale is 1000 (which is the world level)
-				.translate([width / 2, height / 2]); // translate to the center of the SVG
-
-			// Transform features in GeoJSON to SVG paths (creates a function)
-			var path = d3.geoPath()
-				.projection(projection);
-
-			svg.selectAll("path")
-				.data(json.features)
-				.enter()
-				.append("path")
-				.attr("clip-path", "url(#choropleth-area)")
-				.attr("stroke", "white")
-				.attr("stroke-width", 2)
-				.attr("fill", "lightgrey")
-				.attr("opacity", 0.7)
-				.on("mouseover", function(d) {
-					svg.selectAll("path")
-						.attr("opacity", 0.3);
-					d3.select(this)
-						.attr("opacity", 1);
-					tip.show({
-						district: d.properties.DISTRICT,
-						count: d.properties.count,
-						total: countSum(),
-						fill: colorScaleRainbow(d.properties.count)
-					});
-				})
-				.on("mouseout", function(d) {
-					svg.selectAll("path")
-						.attr("opacity", 0.7);
-					tip.hide({
-						district: d.properties.DISTRICT,
-						count: d.properties.count,
-						total: countSum(),
-						fill: colorScaleRainbow(d.properties.count)
-					});
-				})
-				.attr("d", path);
-
-			function updateMap() {
-				svg.selectAll("path")
-					.data(json.features)
-					.transition()
-					.duration(1000)
-					.attr("fill", function(d) {
-						// get data value
-						var count = d.properties.count;
-						if (count) {
-							return colorScaleRainbow(count);
-						} else {
-							return "#ccc";
-						}
-					});
-			}
-
-			updateMap();
 
 			///////////////////////////////////////////////////////////////////////////
 			///////////////////////// Set up and call tooltip /////////////////////////
@@ -273,7 +349,7 @@ function loadChoropleth() {
 				.attr("class", "d3-tip")
 				.direction("ne")
 				.html(function(e) {
-					return "<span style='color:" + d3.color(e.fill).brighter(0.5) + "'>" + e.district + " </span><br><br><span style='color:white'>" + Math.round(e.count / e.total * 10000) / 100 + "%<br><br>(" + e.count + " out of " + e.total + ")</span>";
+					return "<span style='color:white'>" + Math.round(e.count / e.total * 10000) / 100 + "%<br><br>(" + e.count + " out of " + e.total + ")</span>";
 				});
 			svg.call(tip);
 
@@ -301,6 +377,7 @@ function loadChoropleth() {
 					updateColourRange();
 					updateGradientScale();
 					updateMap();
+					updateLabels();
 
 					d3.select("#choropleth-menu-button")
 						.text(d);
