@@ -216,7 +216,7 @@ function loadHistogram() {
 			.attr("class", "d3-tip")
 			.direction("ne")
 			.html(function(e) {
-				return "<span style='color:white'>" + e.count + " out of " + e.total + "</span>";
+				return "<span style='color:white'>" + Math.round(e.count/e.total*10000)/100 + "%<br><br>" + e.count + " out of " + e.total + "</span>";
 			});
 		svg.call(tip);
 

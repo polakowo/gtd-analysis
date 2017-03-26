@@ -136,6 +136,7 @@ function loadChoropleth() {
 
 			updateColourRange();
 
+
 			///////////////////////////////////////////////////////////////////////////
 			/////////////////////////////// Draw the legend ///////////////////////////
 			///////////////////////////////////////////////////////////////////////////
@@ -170,9 +171,8 @@ function loadChoropleth() {
 				.range([0, legendWidth]);
 
 			//Define x-axis
-			var xAxis = d3.axisBottom()
-				.ticks(5)
-				.scale(xScale);
+			var xAxis = d3.axisBottom(xScale)
+				.ticks(5);
 
 			// Else numbers will float far to right outside of our working area when updated
 			svg.append("clipPath")
@@ -185,7 +185,7 @@ function loadChoropleth() {
 
 			//Set up X axis
 			var gX = legendsvg.append("g")
-				.attr("class", "axis") //Assign "axis" class
+				.attr("class", "x axis") //Assign "axis" class
 				.attr("clip-path", "url(#choropleth-axis-area)")
 				.attr("transform", "translate(" + (-legendWidth / 2) + "," + (10 + legendHeight) + ")");
 
@@ -193,7 +193,7 @@ function loadChoropleth() {
 				xScale.domain([0, countMax()]);
 				gX.transition()
 					.duration(1000)
-					.call(xAxis);
+					.call(xAxis); // IMPORTANT!!! D3 JS Axis Chart Bug, the first CENTRAL district disappears!!!
 			}
 
 			updateGradientScale();
@@ -217,9 +217,9 @@ function loadChoropleth() {
 				.enter()
 				.append("path")
 				.attr("clip-path", "url(#choropleth-area)")
-				.attr("d", path)
 				.attr("stroke", "white")
 				.attr("stroke-width", 2)
+				.attr("fill", "lightgrey")
 				.attr("opacity", 0.7)
 				.on("mouseover", function(d) {
 					svg.selectAll("path")
@@ -229,7 +229,7 @@ function loadChoropleth() {
 					tip.show({
 						district: d.properties.DISTRICT,
 						count: d.properties.count,
-						sumCount: countSum(),
+						total: countSum(),
 						fill: colorScaleRainbow(d.properties.count)
 					});
 				})
@@ -239,10 +239,11 @@ function loadChoropleth() {
 					tip.hide({
 						district: d.properties.DISTRICT,
 						count: d.properties.count,
-						sumCount: countSum(),
+						total: countSum(),
 						fill: colorScaleRainbow(d.properties.count)
 					});
-				});
+				})
+				.attr("d", path);
 
 			function updateMap() {
 				svg.selectAll("path")
@@ -272,7 +273,7 @@ function loadChoropleth() {
 				.attr("class", "d3-tip")
 				.direction("ne")
 				.html(function(e) {
-					return "<span style='color:" + d3.color(e.fill).brighter(0.5) + "'>" + e.district + " </span><br><br><span style='color:white'>(" + e.count + " out of " + e.sumCount + ")</span>";
+					return "<span style='color:" + d3.color(e.fill).brighter(0.5) + "'>" + e.district + " </span><br><br><span style='color:white'>" + Math.round(e.count / e.total * 10000) / 100 + "%<br><br>(" + e.count + " out of " + e.total + ")</span>";
 				});
 			svg.call(tip);
 

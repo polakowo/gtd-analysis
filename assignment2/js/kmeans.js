@@ -90,7 +90,7 @@ function loadKMeans() {
 				kmeans[group].push(d);
 			});
 
-			var K = Math.min.apply(null, Object.keys(kmeans).map(Number));
+			var K = 3;
 			var centroids = kmeans[K];
 
 			///////////////////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ function loadKMeans() {
 				///////////////////////////////////////////////////////////////////////////
 				////////////////////////////// Draw the map ///////////////////////////////
 				///////////////////////////////////////////////////////////////////////////
-
+				
 				svg.selectAll("path")
 					.data(json.features)
 					.enter()
@@ -179,7 +179,7 @@ function loadKMeans() {
 					.enter()
 					.append("path")
 					.classed("bin", true)
-					.attr("opacity", 0.7)
+					.attr("opacity", 0)
 					.attr("transform", function(d) {
 						return "translate(" + d.x + "," + d.y + ")";
 					})
@@ -192,7 +192,8 @@ function loadKMeans() {
 						.duration(1000)
 						.attr("fill", function(d) {
 							return d3.color(cScale(d.index));
-						});
+						})
+						.attr("opacity", 0.7);
 				}
 
 				updateBins();
@@ -203,7 +204,7 @@ function loadKMeans() {
 
 				function updateCentroids() {
 					var t = d3.transition()
-      					.duration(1000);
+						.duration(1000);
 					centroid_paths = svg.selectAll(".centroid")
 						.data(centroids, getIndex);
 					centroid_paths.exit()
@@ -266,7 +267,7 @@ function loadKMeans() {
 					.attr("class", "d3-tip")
 					.direction("ne")
 					.html(function(d) {
-						return "<span style='color:" + cMap(d).brighter(0.5) + "'>X: " + getLon(d) + "<br><br>Y: " + getLat(d) + "</span><br><br><span style='color:white'>" + getCount(d) + " points</span>";
+						return "<span style='color:" + cMap(d).brighter(0.5) + "'>X: " + getLon(d) + "<br><br>Y: " + getLat(d) + "</span><br><br><span style='color:white'>" + getCount(d) + " crimes</span>";
 					});
 				svg.call(tip);
 
@@ -285,7 +286,11 @@ function loadKMeans() {
 					.append("button")
 					.classed("dropdown-item", true)
 					.text(function(d) {
-						return "K = " + d;
+						if (d == 3) {
+							return "K = 3 (optimal)";
+						} else {
+							return "K = " + d;
+						}
 					})
 					.on("click", function(d) {
 						K = +d.slice(-1);
