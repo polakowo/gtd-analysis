@@ -105,7 +105,7 @@ function loadChoropleth() {
 			//Needed for gradients
 			var defs = svg.append("defs");
 
-			var coloursRainbow = ["#fee0d2", "#fc9272", "#de2d26"];
+			var coloursRainbow = ["#F8B195", "#F67280", "#C06C84", "#6C5B7B", "#455B7D"];
 
 			//Calculate the gradient
 			defs.append("linearGradient")
