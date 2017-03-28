@@ -37,7 +37,7 @@ function loadScatterplot() {
 	///////////////////////////////////////////////////////////////////////////
 
 	// Load both datasets (keep in mind: each fetch is asynchronous, so we need callbacks)
-	d3.csv("data/scatter_2013.csv", function(error, crime_2013) {
+	d3.csv("data/scatter_2003.csv", function(error, crime_2003) {
 		d3.csv("data/scatter_2015.csv", function(error, crime_2015) {
 
 			// Define key function to maintain consistency between data and DOM
@@ -51,10 +51,10 @@ function loadScatterplot() {
 				return d.vehicleTheft;
 			};
 
-			// We want the same scale for 2013 and 2015
+			// We want the same scale for 2003 and 2015
 			min = function(attr) {
 				return Math.min(
-					d3.min(crime_2013, function(d) {
+					d3.min(crime_2003, function(d) {
 						return d[attr];
 					}),
 					d3.min(crime_2015, function(d) {
@@ -64,7 +64,7 @@ function loadScatterplot() {
 			};
 			max = function(attr) {
 				return Math.max(
-					d3.max(crime_2013, function(d) {
+					d3.max(crime_2003, function(d) {
 						return d[attr];
 					}),
 					d3.max(crime_2015, function(d) {
@@ -82,11 +82,11 @@ function loadScatterplot() {
 				});
 			};
 
-			changeFormat(crime_2013);
+			changeFormat(crime_2003);
 			changeFormat(crime_2015);
 
 			// Inital dataset
-			var dataset = crime_2013;
+			var dataset = crime_2003;
 
 			///////////////////////////////////////////////////////////////////////////
 			////////////////////////////// Setup x-axis ///////////////////////////////
@@ -220,7 +220,7 @@ function loadScatterplot() {
 					})
 					.transition()
 					.delay(function(d, i) {
-						return 500 - i / crime_2013.length * 500;
+						return 500 - i / crime_2003.length * 500;
 					})
 					.duration(1000)
 					.ease(d3.easeCubic)
@@ -250,9 +250,9 @@ function loadScatterplot() {
 			////////////////////////// Register button events /////////////////////////
 			///////////////////////////////////////////////////////////////////////////
 
-			d3.select("#input-year-2013")
+			d3.select("#input-year-2003")
 				.on("click", function() {
-					dataset = crime_2013;
+					dataset = crime_2003;
 
 					updateCircles();
 				});
