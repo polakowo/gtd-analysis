@@ -112,7 +112,7 @@ function loadKMeans() {
 				////////////////////////////////// Hexbin data ////////////////////////////
 				///////////////////////////////////////////////////////////////////////////
 
-				var hexbin = d3_hexbin.hexbin()
+				var hexbin = d3.hexbin()
 					.extent([
 						[-margin.left, -margin.top],
 						[width + margin.right, height + margin.bottom]
