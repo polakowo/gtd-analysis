@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Analysis of Global Terrorism Database">
+    <meta name="author" content="Oleg Polakow (polakowo)">
+
+	<title>Analysis of Global Terrorism Database</title>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+
+	<!-- Selectize.js CSS -->
+	<link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.default.css">
+
+	<!-- Country flags -->
+	<link rel="stylesheet" href="bower_components/flag-icon-css/css/flag-icon.min.css">
+
+	<!-- Our CSS -->
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/d3.css">
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="card">
+			<div class="card-header">
+				Header
+			</div>
+			<div class="card-block">
+				<div class="control-group">
+					<select id="choropleth-select-category" placeholder="Select category...">
+
+					</select>
+				</div>
+				<div class="control-group">
+					<select id="choropleth-select-subcategory" placeholder="Select subcategory...">
+
+					</select>
+				</div>
+				<div class="control-group">
+					<select id="choropleth-select-metric" placeholder="Select metric...">
+
+					</select>
+				</div>
+				<div id="choropleth">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+	<!-- Bootstrap -->
+	<script src="bower_components/tether/dist/js/tether.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+
+	<!-- D3 -->
+	<script src="bower_components/d3/d3.min.js"></script>
+	<script src="bower_components/d3-hexbin.v0.2.min/index.js"></script>
+
+	<!-- Selectize.js -->
+	<script src="bower_components/microplugin/src/microplugin.js"></script>
+	<script src="bower_components/sifter/sifter.min.js"></script>
+	<script src="bower_components/selectize/dist/js/selectize.min.js"></script>
+
+	<!-- D3 tip -->
+	<script src="js/d3-tip.js"></script>
+
+	<!-- Charts -->
+	<script src="js/choropleth.js"></script>
+</body>
+
+</html>
