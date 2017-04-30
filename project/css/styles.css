@@ -4,72 +4,76 @@ body {
 }
 
 .control-group {
-	width: 50%;
-	height: 50%;
+    width: 50%;
+    height: 50%;
 }
 
 
 /* Button radios */
+
 .button-radios {
-  display: table;
-  width: 100%;
-  padding: 0;
-  margin: 0 0 1rem 0;
+    display: table;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 1rem 0;
 }
 
 .button-radios .radio {
-  width: 25%;
-  display: table-cell;
+    width: 25%;
+    display: table-cell;
 }
 
 .button-radios .radio label {
-  text-align: center;
-  font-size: .9rem;
-  border: solid 2px #1b1d23;
-  background: #1b1d23;
-  color: #9da5b3;
-  transition: none;
-  display: block;
-  padding: .4rem 0;
+    text-align: center;
+    font-size: .9rem;
+    border: solid 2px #1b1d23;
+    background: #1b1d23;
+    color: #9da5b3;
+    transition: none;
+    display: block;
+    padding: .4rem 0;
 }
+
 .button-radios .radio label:hover {
-  border-color: #558efc;
-  outline: none;
+    border-color: #558efc;
+    outline: none;
 }
 
 .button-radios .radio:first-child label {
-  border-top-left-radius: .25rem;
-  border-bottom-left-radius: .25rem;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
 }
 
 .button-radios .radio:last-child label {
-  border-top-right-radius: .25rem;
-  border-bottom-right-radius: .25rem;
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
 }
 
-.button-radios .radio input:checked + label {
-  color: white;
-  background-color: #558efc;
-  border-color: #558efc;
+.button-radios .radio input:checked+label {
+    color: white;
+    background-color: #558efc;
+    border-color: #558efc;
 }
 
-.button-radios .radio input:focus + label {
-  background-color: #3c75e3;
-  border-color: #3c75e3;
+.button-radios .radio input:focus+label {
+    background-color: #3c75e3;
+    border-color: #3c75e3;
 }
 
 .button-radios .radio input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
+
 /* Form groups */
+
 .form-group {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .form-group label {
-  font-size: .9rem;
-  color: #9da5b3;
+    font-size: .9rem;
+    color: #9da5b3;
 }

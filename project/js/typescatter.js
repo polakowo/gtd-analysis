@@ -272,11 +272,9 @@ function loadTypeScatter() {
 			return getX(d)+getY(d);
 		};
 
-		var xyMin = d3.min(focusDataset, getXY);
-		var xyMax = d3.max(focusDataset, getXY);
+		var customColours = ["#D3D3D3", "#084485"];
 		var cScale = d3.scaleSequential()
-			.domain([xyMax, xyMin])
-			.interpolator(d3.interpolateWarm);
+			.interpolator(d3.interpolateRgbBasis(customColours));
 		var cMap = function(d) {
 			return d3.color(cScale(getXY(d)));
 		};
@@ -285,8 +283,10 @@ function loadTypeScatter() {
 			xyMin = d3.min(focusDataset, getXY);
 			xyMax = d3.max(focusDataset, getXY);
 
-			cScale.domain([xyMax, xyMin]);
+			cScale.domain([xyMin, xyMax]);
 		}
+
+		updateColor();
 
 		//////////////////////////////////
 		////////// Draw circles //////////
@@ -346,8 +346,7 @@ function loadTypeScatter() {
 			.attr("class", "d3-tip")
 			.direction("ne")
 			.html(function(d) {
-				return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getSubtype(d) + "</span><hr style='border-color:grey'>" +
-					"Attacks: " + getZ(d);
+				return getSubtype(d) + "<hr style='border-color:grey'>Attacks: " + getZ(d);
 			});
 		svg.call(tip);
 

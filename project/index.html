@@ -6,19 +6,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Analysis of Global Terrorism Database">
-    <meta name="author" content="Oleg Polakow (polakowo)">
+	<meta name="author" content="Oleg Polakow (polakowo)">
 
 	<title>Analysis of Global Terrorism Database</title>
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
-
-	<!-- Selectize.js CSS -->
-	<link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.default.css">
-
-	<!-- Country flags -->
-	<link rel="stylesheet" href="bower_components/flag-icon-css/css/flag-icon.min.css">
+	<!-- Third-party CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css" integrity="sha256-sj3qkRTZIL8Kff5fST1TX0EF9lEmSfFgjNvuiw2CV5w=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.default.min.css" integrity="sha256-+2lyWXApzbDj+vHaoYRVsx253cXaQ11xVCzPg34SVC4=" crossorigin="anonymous" />
 
 	<!-- Our CSS -->
 	<link rel="stylesheet" href="css/styles.css">
@@ -28,6 +23,57 @@
 
 <body>
 	<div class="container">
+		<div class="card">
+			<div class="card-header">
+				Header
+			</div>
+			<div class="card-block">
+				<div class="control-group">
+					<select id="temphist-select-category" placeholder="Select category...">
+
+					</select>
+				</div>
+				<div class="control-group">
+					<select id="temphist-select-subcategory" placeholder="Select subcategory...">
+
+					</select>
+				</div>
+				<div class="control-group">
+					<select id="temphist-select-metric" placeholder="Select metric...">
+
+					</select>
+				</div>
+				<div id="temphist">
+
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="card">
+			<div class="card-header">
+				Header
+			</div>
+			<div class="card-block">
+				<div class="control-group">
+					<select id="typescatter-select-category" placeholder="Select category...">
+
+					</select>
+					<select id="typescatter-select-subcategory" placeholder="Select subcategory...">
+
+					</select>
+					<select id="typescatter-select-type" placeholder="Select type...">
+
+					</select>
+					<select id="typescatter-select-role" placeholder="Select role...">
+
+					</select>
+				</div>
+				<input type="checkbox" name="abscomp-checkbox" checked>
+				<div id="typescatter">
+
+				</div>
+			</div>
+		</div>
 		<div class="card">
 			<div class="card-header">
 				Header
@@ -48,6 +94,23 @@
 
 					</select>
 				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-12 text-center">Temporal Distribution</div>
+					</div>
+					<div class="row">
+						<div class="col text-right">1970</div>
+						<div class="col-8">
+							<input id="choropleth-slider-range" style="width:100%;" type="range" value="1970" min="1970" max="2015" step="1">
+						</div>
+						<div class="col">2015</div>
+					</div>
+					<div class="row">
+						<div class="col-12 text-center">
+							<button type="button" class="btn btn-info" id="choropleth-slider-button">Time Machine</button>
+						</div>
+					</div>
+				</div>
 				<div id="choropleth">
 
 				</div>
@@ -55,27 +118,21 @@
 		</div>
 	</div>
 
-	<!-- jQuery -->
-	<script src="bower_components/jquery/dist/jquery.min.js"></script>
-
-	<!-- Bootstrap -->
-	<script src="bower_components/tether/dist/js/tether.min.js"></script>
-	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
-
-	<!-- D3 -->
-	<script src="bower_components/d3/d3.min.js"></script>
-	<script src="bower_components/d3-hexbin.v0.2.min/index.js"></script>
-
-	<!-- Selectize.js -->
-	<script src="bower_components/microplugin/src/microplugin.js"></script>
-	<script src="bower_components/sifter/sifter.min.js"></script>
-	<script src="bower_components/selectize/dist/js/selectize.min.js"></script>
+	<!-- Third-party libraries -->
+	<script   src="https://code.jquery.com/jquery-3.2.1.slim.min.js"   integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="   crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.js" integrity="sha256-jVfFb7AbGi7S/SLNl8SB4/MYaf549eEs+NlIWMoARHg=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js" integrity="sha256-AKUJYz2DyEoZYHh2/+zPHm1tTdYb4cmG8HC2ydmTzM4=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js" integrity="sha256-SG9O7IpJWlIha5Q8UIqaLFkkimE+CbubKlzSwTbdS1g=" crossorigin="anonymous"></script>
+	<script src="https://d3js.org/d3-hexbin.v0.2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js" integrity="sha256-HyBiZFJAMvxOhZoWOc5LWIWaN1gcFi8LjS75BZF4afg=" crossorigin="anonymous"></script>
 
 	<!-- D3 tip -->
 	<script src="js/d3-tip.js"></script>
 
 	<!-- Charts -->
+	<script src="js/temphist.js"></script>
+	<script src="js/typescatter.js"></script>
 	<script src="js/choropleth.js"></script>
 </body>
 

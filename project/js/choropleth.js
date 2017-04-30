@@ -7,6 +7,7 @@ function loadChoropleth() {
 	var svgW = $("#choropleth")
 		.width();
 	var svgH = 0.8 * svgW;
+	// Margins of inner plot area
 	var margin = {
 			left: 100,
 			top: 100,
@@ -15,18 +16,19 @@ function loadChoropleth() {
 		},
 		width = svgW - margin.left - margin.right,
 		height = svgH - margin.top - margin.bottom;
+	// Padding used for placing titles and axis labels outside of the inner area
 	var padding = 15;
 
-	// Append new svg element to DOM
-	// Append g to svg which acts as an area where circles are drawn
-	// We need g to be subset of svg to make a bit space for x and y axis
+	// Append new svg element to document body
 	var svg = d3.select("#choropleth")
 		.append("svg")
 		.attr("width", svgW)
 		.attr("height", svgH);
+	// Append rect for colouring background
 	svg.append("rect")
 		.attr("class", "svg-bg");
-	var clip = svg.append("g") // New coordinate system (= clipPath)
+	// Append inner plot area (just new coordinate system)
+	var clip = svg.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	// Else our map will extend our working area "g" of svg
@@ -44,8 +46,9 @@ function loadChoropleth() {
 
 	d3.csv("data/choropleth.csv", function(error, data) {
 
-		// Convert strings to numbers
+		// Go through data and convert strings to numbers
 		data.forEach(function(d, i) {
+			d.year = +d.year;
 			d.nattacks = +d.nattacks;
 			d.nkilled = +d.nkilled;
 			d.nwounded = +d.nwounded;
@@ -53,6 +56,7 @@ function loadChoropleth() {
 			d.nwoundedter = +d.nwoundedter;
 		});
 
+		// Group data by 1) category 2) subcategory 3) year
 		var groupedData = d3.nest()
 			.key(function(d) {
 				return d.category;
@@ -60,9 +64,12 @@ function loadChoropleth() {
 			.key(function(d) {
 				return d.subcategory;
 			})
+			.key(function(d) {
+				return d.year;
+			})
 			.object(data);
 
-		// Label data
+		// Label metrics
 		var metrics = {
 			"Attacks": "nattacks",
 			"Killed": "nkilled",
@@ -71,17 +78,25 @@ function loadChoropleth() {
 			"Terrorists Wounded": "nwoundedter"
 		};
 
-		// Set initial data
+		// Set initial categories
 		var focusCategory = "All Types";
 		var focusSubcategory = "All Types";
 		var focusMetric = "Attacks";
+		var focusYear = 2015;
+
 		var focusDataset;
 		var focusDatasetById;
 
+		// Dataset is updated every time user changes a category
 		function updateDataset() {
 			focusDataset = groupedData[focusCategory][focusSubcategory];
+			if (focusDataset.hasOwnProperty(focusYear)) {
+				focusDataset = focusDataset[focusYear];
+			} else {
+				focusDataset = [];
+			}
 
-			// We want to get country properties by country id
+			// We want to get country properties by country id (while looping geojson)
 			focusDatasetById = d3.nest()
 				.key(function(d) {
 					return d.id;
@@ -91,6 +106,7 @@ function loadChoropleth() {
 
 		updateDataset();
 
+		// Define functions to get properties depending on metrics chosen by user
 		var getMetric = function(d) {
 			return d[metrics[focusMetric]];
 		};
@@ -100,13 +116,13 @@ function loadChoropleth() {
 		};
 		var metricMax = function() {
 			var max = d3.max(focusDataset, getMetric);
-			return max > 0 ? max: 1; // Scale must be [0, >0]
+			return max > 0 ? max : 1; // Scale must be [0, >0]
 		};
 		var metricSum = function() {
 			return d3.sum(focusDataset, getMetric);
 		};
 
-		// Jump to country with max metric
+		// In order to jump country with max metric we need its id
 		function idWithMaxMetric() {
 			var maxMetric = metricMax();
 			for (var i = 0; i < focusDataset.length; i++) {
@@ -123,9 +139,27 @@ function loadChoropleth() {
 
 		var defs = svg.append("defs");
 
-		var customColours = ["#D3D3D3", "#fff0b1", "#ee7777", "#e7264c", "#7e3141", "#1b1336"];
+		var customColours = ["#D3D3D3", "#084485"];
+		var cScale = d3.scaleSequential()
+			.interpolator(d3.interpolateRgbBasis(customColours));
+		var cMap = function(d) {
+			return d3.color(cScale(getMetric(d)));
+		};
 
-		//Calculate the gradient
+		function updateColor() {
+			cScale.domain([metricMin(), metricMax()]);
+		}
+
+		updateColor();
+
+		////////////////////////////
+		////////// Legend //////////
+		////////////////////////////
+
+		var legendWidth = width * 0.6,
+			legendHeight = 10;
+
+		// Calculate the gradient
 		defs.append("linearGradient")
 			.attr("id", "gradient-rainbow-colors")
 			.attr("x1", "0%").attr("y1", "0%")
@@ -140,36 +174,12 @@ function loadChoropleth() {
 				return d;
 			});
 
-		var cScale = d3.scaleLinear()
-			.range(customColours)
-			.interpolate(d3.interpolateHcl);
-		var cMap = function(d) {
-			return d3.color(cScale(getMetric(d)));
-		};
-
-		var colourRange;
-
-		function updateColourRange() {
-			colourRange = d3.range(0, metricMax(), metricMax() / (customColours.length - 1));
-			colourRange.push(metricMax());
-			cScale.domain(colourRange);
-		}
-
-		updateColourRange();
-
-		////////////////////////////
-		////////// Legend //////////
-		////////////////////////////
-
-		var legendWidth = width * 0.6,
-			legendHeight = 10;
-
-		//Color Legend container
+		// Color legend container
 		var legendsvg = svg.append("g")
 			.attr("class", "legendWrapper")
 			.attr("transform", "translate(" + svgW / 2 + "," + (svgH - 3 * padding) + ")");
 
-		//Draw the Rectangle
+		// Draw the gradient rectagle
 		legendsvg.append("rect")
 			.attr("class", "legendRect")
 			.attr("x", -legendWidth / 2)
@@ -186,11 +196,11 @@ function loadChoropleth() {
 			.attr("text-anchor", "middle")
 			.text(focusMetric);
 
-		//Set scale for x-axis
+		// Set metric scale
 		var xScale = d3.scaleLinear()
 			.range([0, legendWidth]);
 
-		//Define x-axis
+		// Define axis
 		var xAxis = d3.axisBottom(xScale)
 			.ticks(5);
 
@@ -203,16 +213,22 @@ function loadChoropleth() {
 			.attr("width", legendWidth + 20)
 			.attr("height", 40);
 
-		//Set up X axis
+		// Set up metric axis
 		var gX = legendsvg.append("g")
 			.attr("class", "x axis") //Assign "axis" class
 			.attr("clip-path", "url(#choropleth-axis-area)")
 			.attr("transform", "translate(" + (-legendWidth / 2) + "," + (10 + legendHeight) + ")");
 
+		var defaultDuration = 1000;
+		var defaultEase = function(t) {
+			return d3.easeCubic(t);
+		};
+
 		function updateGradientScale() {
 			xScale.domain([0, metricMax()]);
-			gX.transition()
-				.duration(1000)
+			gX.transition("gradient")
+				.duration(defaultDuration)
+				.ease(defaultEase)
 				.call(xAxis);
 			legendsvg.select(".legendTitle")
 				.text(focusMetric);
@@ -220,364 +236,469 @@ function loadChoropleth() {
 
 		updateGradientScale();
 
-		////////////////////////////////////
-		////////// Countries data //////////
-		////////////////////////////////////
+		///////////////////////////////
+		////////// Geography //////////
+		///////////////////////////////
 
-		d3.json("geodata/countries.json", function(error, countries) {
+		d3.json("geodata/countries.geo.json", function(error, world) {
 
-			var alpha32 = {};
+			var radius = height / 2; // globe must take the entire plot area
 
-			countries.forEach(function(d, i) {
-				alpha32[d["alpha-3"]] = d["alpha-2"];
-			});
+			var projection = d3.geoOrthographic()
+				.scale(radius)
+				.translate([width / 2, height / 2])
+				.clipAngle(90)
+				.precision(0.3);
 
-			///////////////////////////////
-			////////// Geography //////////
-			///////////////////////////////
+			var path = d3.geoPath()
+				.projection(projection);
 
-			d3.json("geodata/countries.geo.json", function(error, world) {
-
-				var radius = height / 2;
-
-				var projection = d3.geoOrthographic()
-					.scale(radius)
-					.translate([width / 2, height / 2])
-					.clipAngle(90)
-					.precision(0.3)
-					.rotate([-10.270439728514663, -51.07731335885641, 0]);
-
-				var path = d3.geoPath()
-					.projection(projection);
-
-				function pathById(id) {
-					for (var i = 0; i < world.features.length; i++) {
-						if (world.features[i].id == id) {
-							return world.features[i];
-						}
+			function pathById(id) {
+				for (var i = 0; i < world.features.length; i++) {
+					if (world.features[i].id == id) {
+						return world.features[i];
 					}
 				}
+			}
 
-				////////////////////////////
-				////////// Sphere //////////
-				////////////////////////////
+			////////////////////////////
+			////////// Sphere //////////
+			////////////////////////////
 
-				clip.append("path")
-					.datum({
-						type: "Sphere"
-					})
-					.attr("clip-path", "url(#choropleth-area)")
-					.attr("class", "sphere")
-					.attr("d", path);
+			clip.append("path")
+				.datum({
+					type: "Sphere"
+				})
+				.attr("clip-path", "url(#choropleth-area)")
+				.attr("class", "sphere")
+				.attr("d", path);
 
-				///////////////////////////////
-				////////// Graticule //////////
-				///////////////////////////////
+			///////////////////////////////
+			////////// Graticule //////////
+			///////////////////////////////
 
-				var graticule = d3.geoGraticule();
+			// Grid around the sphere
+			var graticule = d3.geoGraticule();
 
-				clip.append("path")
-					.datum(graticule)
-					.attr("clip-path", "url(#choropleth-area)")
-					.attr("class", "graticule")
-					.attr("d", path);
+			clip.append("path")
+				.datum(graticule)
+				.attr("clip-path", "url(#choropleth-area)")
+				.attr("class", "graticule")
+				.attr("d", path);
 
-				//////////////////////////
-				////////// Land //////////
-				//////////////////////////
+			//////////////////////////
+			////////// Land //////////
+			//////////////////////////
 
+			clip.selectAll("path.land")
+				.data(world.features)
+				.enter()
+				.append("path")
+				.attr("clip-path", "url(#choropleth-area)")
+				.attr("class", "land")
+				.attr("d", path)
+				.attr("opacity", 0.7)
+				.on("click", rotateGlobe)
+				.on("dblclick", zoomGlobe)
+				.on("mouseover", function(p) {
+					if (!mouseDown) {
+						d3.select(this).attr("opacity", 1);
+						tip.show(p);
+					}
+				})
+				.on("mouseout", function(p) {
+					if (!mouseDown) {
+						d3.select(this).attr("opacity", 0.7);
+						tip.hide(p);
+					}
+				});
+
+			function updateLand() {
 				clip.selectAll("path.land")
 					.data(world.features)
-					.enter()
-					.append("path")
-					.attr("clip-path", "url(#choropleth-area)")
-					.attr("class", "land")
-					.attr("d", path)
-					.attr("opacity", 0.7)
-					.on("click", rotateGlobe)
-					.on("dblclick", zoomGlobe)
-					.on("mouseover", function(p) {
-						if (!mouseDown) {
-							d3.select(this).attr("opacity", 1);
-							tip.show(p);
-						}
-					})
-					.on("mouseout", function(p) {
-						if (!mouseDown) {
-							d3.select(this).attr("opacity", 0.7);
-							tip.hide(p);
+					.transition("colour")
+					.duration(defaultDuration)
+					.ease(defaultEase)
+					.attr("fill", function(p) {
+						// Get data values for country id
+						if (focusDatasetById.hasOwnProperty(p.id)) {
+							return cMap(focusDatasetById[p.id][0]);
+						} else {
+							return cScale(metricMin());
 						}
 					});
+			}
 
-				function updateLand() {
-					clip.selectAll("path.land")
-						.data(world.features)
-						.transition("colorland")
-						.duration(1000)
-						.attr("fill", function(p) {
-							// get data value
-							if (focusDatasetById.hasOwnProperty(p.id)) {
-								return cMap(focusDatasetById[p.id][0]);
-							} else {
-								return cScale(metricMin());
-							}
-						});
+			updateLand();
+
+			////////////////////////////////
+			////////// Drag globe //////////
+			////////////////////////////////
+
+			// Sensitivity of rotation depends on current zoom (slower if zoomed in)
+			var sens = function() {
+				return projection.scale() > radius ? 0.05 : 0.2;
+			};
+
+			function dragSubject() {
+				var r = projection.rotate();
+				return {
+					x: r[0] / sens(),
+					y: -r[1] / sens()
+				};
+			}
+
+			// We want the tip not to be shown on drag
+			var mouseDown = false;
+
+			var dragGlobe = d3.drag()
+				.subject(dragSubject)
+				.on("start", function() {
+					// Change to initial opacity
+					d3.select(this).attr("opacity", 0.7);
+					mouseDown = true;
+					tip.hide();
+				})
+				.on("drag", function() {
+					projection.rotate([d3.event.x * sens(), -d3.event.y * sens()]); // Update projection
+					clip.selectAll("path").attr("d", path); // Update paths
+				})
+				.on("end", function() {
+					mouseDown = false;
+				});
+
+			// Apply to land and sphere
+			clip.selectAll("path")
+				.call(dragGlobe);
+
+			//////////////////////////////////
+			////////// Rotate globe //////////
+			//////////////////////////////////
+
+			function rotateGlobe(d) {
+				var r;
+				if (d) {
+					// Get centroid of the target country (central coordinates)
+					var countryXY = d3.geoCentroid(d);
+					// Transition (or time) scale is projected into rotation scale
+					r = d3.interpolate(projection.rotate(), [-countryXY[0], -countryXY[1], 0]);
+				} else { // Sometimes country is not known, path is empty, or no terrorism is present at all
+					r = d3.interpolate(projection.rotate(), [0, 0, 0]);
 				}
 
+				(function transition() {
+					clip.transition("rotate")
+						.duration(1000)
+						.tween("rotate", function() {
+							return function(t) {
+								projection.rotate(r(t));
+								clip.selectAll("path").attr("d", path);
+							};
+						});
+				})();
+			}
+
+			rotateGlobe(pathById(idWithMaxMetric()));
+
+			////////////////////////////////
+			////////// Zoom globe //////////
+			////////////////////////////////
+
+			var zoomFactor = 2;
+
+			function zoomGlobe() {
+				(function zoom() {
+					clip.transition("zoom")
+						.duration(1000)
+						.tween("transform", function() {
+							var targetScale = projection.scale() > radius ? radius : zoomFactor * radius;
+							var zoomer = d3.interpolate(projection.scale(), targetScale);
+							return function(t) {
+								projection.scale(zoomer(t));
+								// To show changes we have to update paths first (everywhere necessary)
+								clip.selectAll("path").attr("d", path);
+							};
+						});
+				})();
+			}
+
+			////////////////////////////////
+			////////// Spin globe //////////
+			////////////////////////////////
+
+			var time = Date.now();
+			var rotate = projection.rotate();
+			var velocity = [-0.005, -0.005, 0];
+
+			function spinGlobe() {
+				d3.timer(function() {
+					// get current time
+					var dt = Date.now() - time;
+					// get the new position from modified projection function
+					projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt, rotate[2] + velocity[2] * dt]);
+
+					// update cities position = redraw
+					clip.selectAll("path").attr("d", path);
+				});
+			}
+
+			/////////////////////////////
+			////////// Tooltip //////////
+			/////////////////////////////
+
+			var tip = d3.tip()
+				.attr("class", "d3-tip")
+				.direction("ne")
+				.html(function(p) {
+					// Advanced terrorism information
+					if (focusDatasetById.hasOwnProperty(p.id)) {
+						var d = focusDatasetById[p.id][0];
+						return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + p.properties.name + "</span><br><hr style='border-color:grey'>" +
+							Math.round(getMetric(d) / metricSum() * 10000) / 100 + "%<br><br>(" + getMetric(d) + " out of " + metricSum() + ")</span>";
+					} else {
+						return p.properties.name + "<br><hr style='border-color:grey'>0%<br><br>(0 out of " + metricSum() + ")";
+					}
+				});
+			svg.call(tip);
+
+			///////////////////////////
+			////////// Title //////////
+			///////////////////////////
+
+			// Append title
+			var title = svg.append("text")
+				.classed("title", true)
+				.attr("x", svgW / 2)
+				.attr("y", margin.top / 2); // We'll set the title later from the dropdown
+
+			function setTitle() {
+				title.selectAll("*").remove();
+
+				// We want to show some text in italic
+				// Text cannot be appended as html element, only styling with tspan possible
+				var tmp = document.createElement("text");
+				tmp.innerHTML = "Geographical Distribution by <tspan style='font-style: italic;'>" + focusCategory + ": " + focusSubcategory + "</tspan> (<tspan style='font-style: italic;'>" + focusYear + "</tspan>)";
+				var nodes = Array.prototype.slice.call(tmp.childNodes);
+				nodes.forEach(function(node) {
+					title.append("tspan")
+						.attr("style", node.getAttribute && node.getAttribute("style"))
+						.text(node.textContent);
+				});
+			}
+
+			setTitle();
+
+			////////////////////////////
+			////////// Update //////////
+			////////////////////////////
+
+			function updateAll(rotate) {
+				updateDataset();
+
+				updateColor();
+				updateGradientScale();
 				updateLand();
 
-				////////////////////////////////
-				////////// Drag globe //////////
-				////////////////////////////////
+				setTitle();
 
-				var sens = function() {
-					return projection.scale() > radius ? 0.05 : 0.2;
+				if (rotate) {
+					rotateGlobe(pathById(idWithMaxMetric()));
+				}
+			}
+
+			//////////////////////////////////////////
+			////////// Subcategory dropdown //////////
+			//////////////////////////////////////////
+
+			// Subcategories first because they are dependent on active category
+
+			// Method which turns array of values into options for dropdown
+			function toOptionsFormat(list, optgroup) {
+				var options = [];
+				for (var i = 0; i < list.length; i++) {
+					options.push({
+						value: list[i],
+						name: list[i],
+						class: optgroup
+					});
+				}
+				return options;
+			}
+
+			// Initialize dropdown using selectize.js
+			var $select2 = $('#choropleth-select-subcategory').selectize({
+				options: toOptionsFormat(Object.keys(groupedData[focusCategory]).sort(), focusCategory),
+				optgroups: [{
+					value: focusCategory,
+					label: focusCategory
+				}],
+				optgroupField: 'class',
+				labelField: 'name',
+				searchField: ['name'],
+				onChange: function(t) {
+					if (t && t != focusSubcategory) {
+						focusSubcategory = t;
+
+						updateAll(true);
+					}
+				}
+			});
+			var selectize2 = $select2[0].selectize;
+			selectize2.setValue(focusSubcategory);
+
+			///////////////////////////////////////
+			////////// Category dropdown //////////
+			///////////////////////////////////////
+
+			// Initialize dropdown using selectize.js
+			var $select1 = $('#choropleth-select-category').selectize({
+				options: toOptionsFormat(["All Types", "Weapon Type", "Attack Type", "Target Type"], "Type")
+					.concat(toOptionsFormat(["Terrorist Group"], "Group")),
+				optgroups: [{
+					value: "Type",
+					label: "Type"
+				}, {
+					value: "Group",
+					label: "Group"
+				}],
+				optgroupField: 'class',
+				labelField: 'name',
+				searchField: ['name'],
+				onChange: function(t) {
+					if (t && t != focusCategory) {
+						focusCategory = t;
+
+						// Populate subcategories dropdown
+						selectize2.clear();
+						selectize2.clearOptions();
+						selectize2.clearOptionGroups();
+
+						selectize2.addOptionGroup(focusCategory, {
+							value: focusCategory,
+							label: focusCategory
+						});
+						var subcategories = Object.keys(groupedData[focusCategory]).sort();
+						selectize2.load(function(callback) {
+							callback(toOptionsFormat(subcategories, focusCategory));
+						});
+						focusSubcategory = subcategories[0];
+						selectize2.setValue(focusSubcategory);
+
+						updateAll(true);
+					}
+				}
+			});
+			var selectize1 = $select1[0].selectize;
+			selectize1.setValue(focusCategory);
+
+			/////////////////////////////////////
+			////////// Metric dropdown //////////
+			/////////////////////////////////////
+
+			var $select3 = $('#choropleth-select-metric').selectize({
+				options: toOptionsFormat(Object.keys(metrics).sort(), "Metric"),
+				optgroups: [{
+					value: "Metric",
+					label: "Metric"
+				}],
+				optgroupField: 'class',
+				labelField: 'name',
+				searchField: ['name'],
+				onChange: function(t) {
+					if (t && t != focusMetric) {
+						focusMetric = t;
+
+						updateAll(true);
+					}
+
+				}
+			});
+			var selectize3 = $select3[0].selectize;
+			selectize3.setValue(focusMetric);
+
+			/////////////////////////////////
+			////////// Year slider //////////
+			/////////////////////////////////
+
+			var sliderRange = $('#choropleth-slider-range');
+			var sliderButton = $("#choropleth-slider-button");
+			var timeMachineTimer;
+
+			var yearMin = d3.min(data, function(d) {
+				return d.year;
+			});
+			var yearMax = d3.max(data, function(d) {
+				return d.year;
+			});
+
+			sliderRange.prop('min', yearMin);
+			sliderRange.prop('max', yearMax);
+			sliderRange.prop('value', focusYear);
+
+			// The value on the slider changed
+			sliderRange.on("input", function() {
+				if (timeMachineTimer) {
+					stopTimer();
+				}
+				focusYear = +this.value;
+				updateAll(false);
+			});
+
+			// The Time Machine button clicked
+			sliderButton.on("click", function() {
+				if (sliderButton.hasClass("btn btn-info")) {
+					startTimer();
+				} else {
+					stopTimer();
+				}
+			});
+
+			// Start timer with some additional settings
+			function startTimer() {
+				sliderButton.removeClass("btn btn-info");
+				sliderButton.addClass("btn btn-warning");
+				sliderButton.html("Stop");
+
+				var yearsToGo = d3.range(yearMin, yearMax + 1);
+				// Make transitions faster
+				defaultDuration = 250;
+				// and linear
+				defaultEase = function(t) {
+					return d3.easeLinear(t);
 				};
 
-				function dragSubject() {
-					var r = projection.rotate();
-					return {
-						x: r[0] / sens(),
-						y: -r[1] / sens()
-					};
-				}
+				var i = 0;
+				timeMachineTimer = d3.interval(function() {
+					if (i < yearsToGo.length) {
+						focusYear = yearsToGo[i];
+						sliderRange.prop('value', focusYear);
 
-				var mouseDown = false;
+						// Update all without rotations
+						updateAll(false);
 
-				var dragGlobe = d3.drag()
-					.subject(dragSubject)
-					.on("start", function() {
-						d3.select(this).attr("opacity", 0.7);
-						mouseDown = true;
-						tip.hide();
-					})
-					.on("drag", function() {
-						projection.rotate([d3.event.x * sens(), -d3.event.y * sens()]); // Update projection
-						clip.selectAll("path").attr("d", path); // Update paths
-					})
-					.on("end", function() {
-						mouseDown = false;
-					});
-
-				// Apply to land and water
-				clip.selectAll("path")
-					.call(dragGlobe);
-
-				//////////////////////////////////
-				////////// Rotate globe //////////
-				//////////////////////////////////
-
-				function rotateGlobe(d) {
-					var r;
-					if (d) {
-						var countryXY = d3.geoCentroid(d);
-						r = d3.interpolate(projection.rotate(), [-countryXY[0], -countryXY[1], 0]);
-					} else {
-						r = d3.interpolate(projection.rotate(), [0, 0, 0]);
+						++i;
+					} else { // There is no timer.onstop method
+						stopTimer();
 					}
+				}, defaultDuration);
+			}
 
-					(function transition() {
-						clip.transition("rotation")
-							.duration(1000)
-							.tween("rotate", function() {
-								return function(t) {
-									projection.rotate(r(t));
-									clip.selectAll("path").attr("d", path);
-								};
-							});
-					})();
-				}
+			// Stop timer and reset to defaults
+			function stopTimer() {
+				sliderButton.removeClass("btn btn-warning");
+				sliderButton.addClass("btn btn-info");
+				sliderButton.html("Time Machine");
 
-				rotateGlobe(pathById(idWithMaxMetric()), false);
+				timeMachineTimer.stop();
+				timeMachineTimer = null;
 
-				////////////////////////////////
-				////////// Zoom globe //////////
-				////////////////////////////////
-
-				var zoomFactor = 2;
-				function zoomGlobe() {
-
-					(function zoom() {
-						clip.transition("zoom")
-							.duration(1000)
-							.tween("transform", function() {
-								var targetScale = projection.scale() > radius ? radius : zoomFactor * radius;
-								var zoomer = d3.interpolate(projection.scale(), targetScale);
-								return function(t) {
-									projection.scale(zoomer(t));
-									clip.selectAll("path").attr("d", path);
-								};
-							});
-					})();
-				}
-
-				////////////////////////////////
-				////////// Spin globe //////////
-				////////////////////////////////
-
-				var time = Date.now();
-				var rotate = projection.rotate();
-				var velocity = [-0.005, -0.005, 0];
-
-				function spinGlobe() {
-					d3.timer(function() {
-						// get current time
-						var dt = Date.now() - time;
-						// get the new position from modified projection function
-						projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt, rotate[2] + velocity[2] * dt]);
-
-						// update cities position = redraw
-						clip.selectAll("path").attr("d", path);
-					});
-				}
-
-				/////////////////////////////
-				////////// Tooltip //////////
-				/////////////////////////////
-
-				var tip = d3.tip()
-					.attr("class", "d3-tip")
-					.direction("ne")
-					.html(function(p) {
-						if (alpha32.hasOwnProperty(p.id)) {
-							var countryHtml = "<span class='flag-icon flag-icon-" + alpha32[p.id].toLowerCase() + " flag-icon-squared'></span><br><br>" + p.properties.name + "<br><hr style='border-color:grey'>";
-							if (focusDatasetById.hasOwnProperty(p.id)) {
-								var d = focusDatasetById[p.id][0];
-								return countryHtml + Math.round(getMetric(d) / metricSum() * 10000) / 100 + "%<br><br>(" + getMetric(d) + " out of " + metricSum() + ")</span>";
-							}
-							else {
-								return countryHtml + "0%<br><br>(0 out of " + metricSum() + ")";
-							}
-						}
-						else {
-							return "Unknown";
-						}
-					});
-				svg.call(tip);
-
-				////////////////////////////
-				////////// Update //////////
-				////////////////////////////
-
-				function updateAll() {
-					updateDataset();
-
-					updateColourRange();
-					updateGradientScale();
-					updateLand();
-
-					rotateGlobe(pathById(idWithMaxMetric()), false);
-				}
-
-				//////////////////////////////////////////
-				////////// Subcategory dropdown //////////
-				//////////////////////////////////////////
-
-				// Options first cuz they're needed by category dropdown
-
-				// Method which turns array of values into options for dropdown
-				function toOptionsFormat(list, optgroup) {
-					var options = [];
-					for (var i = 0; i < list.length; i++) {
-						options.push({
-							value: list[i],
-							name: list[i],
-							class: optgroup
-						});
-					}
-					return options;
-				}
-
-				// Initialize dropdown using selectize.js
-				var $select2 = $('#choropleth-select-subcategory').selectize({
-					options: toOptionsFormat(Object.keys(groupedData[focusCategory]).sort(), focusCategory),
-					optgroups: [{
-						value: focusCategory,
-						label: focusCategory
-					}],
-					optgroupField: 'class',
-					labelField: 'name',
-					searchField: ['name'],
-					onChange: function(t) {
-						if (t && t != focusSubcategory) {
-							focusSubcategory = t;
-
-							updateAll();
-						}
-					}
-				});
-				var selectize2 = $select2[0].selectize;
-				selectize2.setValue(focusSubcategory);
-
-				///////////////////////////////////////
-				////////// Category dropdown //////////
-				///////////////////////////////////////
-
-				// Initialize dropdown using selectize.js
-				var $select1 = $('#choropleth-select-category').selectize({
-					options: toOptionsFormat(["All Types", "Weapon Type", "Attack Type", "Target Type"], "Type")
-						.concat(toOptionsFormat(["Terrorist Group"], "Group")),
-					optgroups: [{
-						value: "Type",
-						label: "Type"
-					}, {
-						value: "Group",
-						label: "Group"
-					}],
-					optgroupField: 'class',
-					labelField: 'name',
-					searchField: ['name'],
-					onChange: function(t) {
-						if (t && t != focusCategory) {
-							focusCategory = t;
-
-							selectize2.clear();
-							selectize2.clearOptions();
-							selectize2.clearOptionGroups();
-
-							selectize2.addOptionGroup(focusCategory, {
-								value: focusCategory,
-								label: focusCategory
-							});
-							var subcategories = Object.keys(groupedData[focusCategory]).sort();
-							selectize2.load(function(callback) {
-								callback(toOptionsFormat(subcategories, focusCategory));
-							});
-							focusSubcategory = subcategories[0];
-							selectize2.setValue(focusSubcategory);
-
-							updateAll();
-						}
-					}
-				});
-				var selectize1 = $select1[0].selectize;
-				selectize1.setValue(focusCategory);
-
-				/////////////////////////////////////
-				////////// Metric dropdown //////////
-				/////////////////////////////////////
-
-				var $select3 = $('#choropleth-select-metric').selectize({
-					options: toOptionsFormat(Object.keys(metrics).sort(), "Metric"),
-					optgroups: [{
-						value: "Metric",
-						label: "Metric"
-					}],
-					optgroupField: 'class',
-					labelField: 'name',
-					searchField: ['name'],
-					onChange: function(t) {
-						if (t && t != focusMetric) {
-							focusMetric = t;
-
-							updateAll();
-						}
-
-					}
-				});
-				var selectize3 = $select3[0].selectize;
-				selectize3.setValue(focusMetric);
-			});
+				// Set the default duration of transitions
+				defaultDuration = 1000;
+				// and the default ease function
+				defaultEase = function(t) {
+					return d3.easeCubic(t);
+				};
+			}
 		});
 	});
 }

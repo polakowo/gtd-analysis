@@ -18,7 +18,7 @@ function loadTempHist() {
 	var padding = 15;
 
 	// Append new svg element to DOM
-	// Append g to svg which acts as an area where circles are drawn
+	// Append g to svg which acts as an area where bars are drawn
 	// We need g to be subset of svg to make a bit space for x and y axis
 	var svg = d3.select("#temphist")
 		.append("svg")
@@ -55,42 +55,6 @@ function loadTempHist() {
 			})
 			.object(data);
 
-		// Define key function to maintain consistency between data and DOM
-		var getX = function(d) {
-			return d.year;
-		};
-
-		var xMin = d3.min(data, getX);
-		var xMax = d3.max(data, getX);
-		var xRange = d3.range(xMin, xMax + 1); // Max always +1
-
-		// Fill missing information with 0 (groupedData by X)
-		var category, subcategory;
-		var mapper = {};
-		for (category in groupedData) {
-			if (groupedData.hasOwnProperty(category)) {
-				for (subcategory in groupedData[category]) {
-					if (groupedData[category].hasOwnProperty(subcategory)) {
-						mapper[subcategory] = category;
-
-						var foundX = d3.map(groupedData[category][subcategory], getX).keys().map(Number);
-						for (var j = 0; j < xRange.length; j++) {
-							if (!foundX.includes(xRange[j])) {
-								groupedData[category][subcategory].push({
-									year: xRange[j],
-									nattacks: 0,
-									nkilled: 0,
-									nwounded: 0,
-									nkilledter: 0,
-									nwoundedter: 0
-								});
-							}
-						}
-					}
-				}
-			}
-		}
-
 		// Label data
 		var metrics = {
 			"Attacks": "nattacks",
@@ -115,6 +79,15 @@ function loadTempHist() {
 		////////////////////////////
 		////////// X Axis //////////
 		////////////////////////////
+
+		// Define key function to maintain consistency between data and DOM
+		var getX = function(d) {
+			return d.year;
+		};
+
+		var xMin = d3.min(data, getX);
+		var xMax = d3.max(data, getX);
+		var xRange = d3.range(xMin, xMax + 1); // Max always +1
 
 		var xScale = d3.scaleBand() // Divides range into n bands, perfect for ordinal values
 			.domain(d3.range(xMin, xMax + 1))
@@ -200,14 +173,15 @@ function loadTempHist() {
 		////////// Bar color //////////
 		///////////////////////////////
 
+		var customColours = ["#D3D3D3", "#084485"];
 		var cScale = d3.scaleSequential()
-			.interpolator(d3.interpolateWarm);
+			.interpolator(d3.interpolateRgbBasis(customColours));
 		var cMap = function(d) {
 			return d3.color(cScale(getY(d)));
 		};
 
 		function updateColor() {
-			cScale.domain([yMax, yMin]);
+			cScale.domain([yMin, yMax]);
 		}
 
 		updateColor();
@@ -224,7 +198,11 @@ function loadTempHist() {
 				.data(focusDataset, getX)
 				.exit()
 				.transition()
-					.attr("y", 0)
+					.duration(1000)
+					.attr("y", function() {
+						return yScale(yMin);
+					})
+					.attr("height", 0)
 					.remove();
 
 			// ENTER new elements present in new data.
@@ -246,17 +224,17 @@ function loadTempHist() {
 					d3.select(this)
 						.attr("opacity", 0.7);
 					tip.hide(d);
-				});
+				})
+				.attr("y", function() {
+					return yScale(yMin);
+				})
+				.attr("height", 0);
 
 			// UPDATE elements present in new data.
 			clip.selectAll("rect")
 				.data(focusDataset, getX)
 				.transition()
-					.delay(function(d, i) {
-						return i / focusDataset.length * 500;
-					})
 					.duration(1000)
-					.ease(d3.easeCubic)
 					.attr("y", yMap)
 					.attr("height", function(d) {
 						return height - yMap(d);
@@ -275,8 +253,7 @@ function loadTempHist() {
 			.direction("ne")
 			.html(function(d) {
 				var total = d3.sum(focusDataset, getY);
-				return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getX(d) + "</span><br><hr style='border-color:grey'>" +
-						focusMetric + ": " + (getY(d) / total * 100).toFixed(2) + "%";
+				return getX(d) + "<br><hr style='border-color:grey'>" + focusMetric + ": " + (getY(d) / total * 100).toFixed(2) + "%";
 			});
 		svg.call(tip);
 
