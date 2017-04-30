@@ -173,7 +173,7 @@ function loadTempHist() {
 		////////// Bar color //////////
 		///////////////////////////////
 
-		var customColours = ["#D3D3D3", "#084485"];
+		var customColours = ["#D3D3D3", "#44D295", "#1145BC", "#7030C6", "#DC258D", "#FF672B"];
 		var cScale = d3.scaleSequential()
 			.interpolator(d3.interpolateRgbBasis(customColours));
 		var cMap = function(d) {
@@ -253,7 +253,7 @@ function loadTempHist() {
 			.direction("ne")
 			.html(function(d) {
 				var total = d3.sum(focusDataset, getY);
-				return getX(d) + "<br><hr style='border-color:grey'>" + focusMetric + ": " + (getY(d) / total * 100).toFixed(2) + "%";
+				return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getX(d) + "</span><br><hr style='border-color:grey'>" + focusMetric + ": " + (getY(d) / total * 100).toFixed(2) + "%";
 			});
 		svg.call(tip);
 

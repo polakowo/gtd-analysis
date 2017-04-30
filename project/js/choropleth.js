@@ -139,7 +139,7 @@ function loadChoropleth() {
 
 		var defs = svg.append("defs");
 
-		var customColours = ["#D3D3D3", "#084485"];
+		var customColours = ["#D3D3D3", "#44D295", "#1145BC", "#7030C6", "#DC258D", "#FF672B"];
 		var cScale = d3.scaleSequential()
 			.interpolator(d3.interpolateRgbBasis(customColours));
 		var cMap = function(d) {
@@ -646,7 +646,7 @@ function loadChoropleth() {
 
 			// The Time Machine button clicked
 			sliderButton.on("click", function() {
-				if (sliderButton.hasClass("btn btn-info")) {
+				if (sliderButton.html() == "Time Machine") {
 					startTimer();
 				} else {
 					stopTimer();
@@ -655,8 +655,6 @@ function loadChoropleth() {
 
 			// Start timer with some additional settings
 			function startTimer() {
-				sliderButton.removeClass("btn btn-info");
-				sliderButton.addClass("btn btn-warning");
 				sliderButton.html("Stop");
 
 				var yearsToGo = d3.range(yearMin, yearMax + 1);
@@ -685,8 +683,6 @@ function loadChoropleth() {
 
 			// Stop timer and reset to defaults
 			function stopTimer() {
-				sliderButton.removeClass("btn btn-warning");
-				sliderButton.addClass("btn btn-info");
 				sliderButton.html("Time Machine");
 
 				timeMachineTimer.stop();

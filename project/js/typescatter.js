@@ -272,7 +272,7 @@ function loadTypeScatter() {
 			return getX(d)+getY(d);
 		};
 
-		var customColours = ["#D3D3D3", "#084485"];
+		var customColours = ["#D3D3D3", "#44D295", "#1145BC", "#7030C6", "#DC258D", "#FF672B"];
 		var cScale = d3.scaleSequential()
 			.interpolator(d3.interpolateRgbBasis(customColours));
 		var cMap = function(d) {
@@ -346,7 +346,7 @@ function loadTypeScatter() {
 			.attr("class", "d3-tip")
 			.direction("ne")
 			.html(function(d) {
-				return getSubtype(d) + "<hr style='border-color:grey'>Attacks: " + getZ(d);
+				return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getSubtype(d) + "</span><hr style='border-color:grey'>Attacks: " + getZ(d);
 			});
 		svg.call(tip);
 
