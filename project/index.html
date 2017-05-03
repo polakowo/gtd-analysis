@@ -29,22 +29,24 @@
 			</div>
 			<div class="card-block">
 				<div class="control-group">
-					<select id="temphist-select-category" placeholder="Select category...">
+					<select id="histogram-select-category" placeholder="Select category...">
 
 					</select>
 				</div>
 				<div class="control-group">
-					<select id="temphist-select-subcategory" placeholder="Select subcategory...">
+					<select id="histogram-select-subcategory" placeholder="Select subcategory...">
 
 					</select>
 				</div>
 				<div class="control-group">
-					<select id="temphist-select-metric" placeholder="Select metric...">
+					<select id="histogram-select-metric" placeholder="Select metric...">
 
 					</select>
 				</div>
-				<div id="temphist">
+				<div id="histogram">
+					<svg id="svg-histogram" width="100%" height="100">
 
+					</svg>
 				</div>
 			</div>
 		</div>
@@ -55,25 +57,28 @@
 			</div>
 			<div class="card-block">
 				<div class="control-group">
-					<select id="typescatter-select-category" placeholder="Select category...">
+					<select id="scatterplot-select-category" placeholder="Select category...">
 
 					</select>
-					<select id="typescatter-select-subcategory" placeholder="Select subcategory...">
+					<select id="scatterplot-select-subcategory" placeholder="Select subcategory...">
 
 					</select>
-					<select id="typescatter-select-type" placeholder="Select type...">
+					<select id="scatterplot-select-type" placeholder="Select type...">
 
 					</select>
-					<select id="typescatter-select-role" placeholder="Select role...">
+					<select id="scatterplot-select-role" placeholder="Select role...">
 
 					</select>
 				</div>
 				<input type="checkbox" name="abscomp-checkbox" checked>
-				<div id="typescatter">
+				<div id="scatterplot">
+					<svg id="svg-scatterplot" width="100%" height="100">
 
+					</svg>
 				</div>
 			</div>
 		</div>
+		<br>
 		<div class="card">
 			<div class="card-header">
 				Header
@@ -112,28 +117,86 @@
 					</div>
 				</div>
 				<div id="choropleth">
+					<svg id="svg-choropleth" width="100%" height="100">
 
+					</svg>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="card">
+			<div class="card-header">
+				Header
+			</div>
+			<div class="card-block">
+				<div class="control-group">
+					<select id="kmeans-select-category" placeholder="Select category...">
+
+					</select>
+				</div>
+				<div class="control-group">
+					<select id="kmeans-select-subcategory" placeholder="Select subcategory...">
+
+					</select>
+				</div>
+				<div class="control-group">
+					<select id="kmeans-select-k" placeholder="Select K...">
+
+					</select>
+				</div>
+				<div id="kmeans">
+					<svg id="svg-kmeans" width="100%" height="100">
+
+					</svg>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Third-party libraries -->
-	<script   src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.js" integrity="sha256-jVfFb7AbGi7S/SLNl8SB4/MYaf549eEs+NlIWMoARHg=" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js" integrity="sha256-AKUJYz2DyEoZYHh2/+zPHm1tTdYb4cmG8HC2ydmTzM4=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js" integrity="sha256-SG9O7IpJWlIha5Q8UIqaLFkkimE+CbubKlzSwTbdS1g=" crossorigin="anonymous"></script>
 	<script src="https://d3js.org/d3-hexbin.v0.2.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js" integrity="sha256-HyBiZFJAMvxOhZoWOc5LWIWaN1gcFi8LjS75BZF4afg=" crossorigin="anonymous"></script>
+	<script src="http://spin.js.org/spin.min.js"></script>
 
 	<!-- D3 tip -->
-	<script src="js/d3-tip.js"></script>
+	<script src="js/third-party/d3-tip.js"></script>
 
 	<!-- Charts -->
-	<script src="js/temphist.js"></script>
-	<script src="js/typescatter.js"></script>
+	<script src="js/histogram.js"></script>
+	<script src="js/scatterplot.js"></script>
 	<script src="js/choropleth.js"></script>
+	<script src="js/kmeans.js"></script>
+
+	<script src="js/loaddata.js"></script>
+	<script>
+		// Place a spinner on top of each svg until the data is loaded
+		var spinner1 = new Spinner().spin(document.getElementById("histogram"));
+		var spinner2 = new Spinner().spin(document.getElementById("scatterplot"));
+		var spinner3 = new Spinner().spin(document.getElementById("choropleth"));
+		var spinner4 = new Spinner().spin(document.getElementById("kmeans"));
+
+		// Callback
+		var callCharts = function() {
+
+			spinner1.stop();
+			spinner2.stop();
+			spinner3.stop();
+			spinner4.stop();
+
+			// Load charts
+			loadHistogram();
+			loadScatterplot();
+			loadChoropleth();
+			loadKMeans();
+		}
+
+		loadData(callCharts);
+	</script>
 </body>
 
 </html>
