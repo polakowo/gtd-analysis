@@ -126,7 +126,7 @@ function loadChoropleth() {
 
 	var defs = svg.append("defs");
 
-	var customColours = ["#C7C7C7", "#9ECAE1", "#6BAED6", "#3182BD"];
+	var customColours = ["#C7C7C7", "#1F77B4"];
 	var cScale = d3.scaleSequential()
 		.interpolator(d3.interpolateRgbBasis(customColours));
 	var cMap = function(d) {

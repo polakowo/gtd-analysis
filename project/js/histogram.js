@@ -159,7 +159,7 @@ function loadHistogram() {
 	////////// Bar color //////////
 	///////////////////////////////
 
-	var customColours = ["#FDD0A2", "#FDAE6B", "#FD8D3C", "#E6550D"];
+	var customColours = ["#C7C7C7", "#1F77B4"];
 	var cScale = d3.scaleSequential()
 		.interpolator(d3.interpolateRgbBasis(customColours));
 	var cMap = function(d) {
