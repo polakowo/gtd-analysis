@@ -13,7 +13,7 @@
 	<!-- Third-party CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css" integrity="sha256-sj3qkRTZIL8Kff5fST1TX0EF9lEmSfFgjNvuiw2CV5w=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap3.min.css" integrity="sha256-xaHB15TZbLhew82A2NzY8rvCCp/REcOA/kSpWWO7TlE=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap3.min.css" integrity="sha256-xaHB15TZbLhew82A2NzY8rvCCp/REcOA/kSpWWO7TlE=" crossorigin="anonymous" />
 
 	<!-- Our CSS -->
 	<link rel="stylesheet" href="css/styles.css">
@@ -28,26 +28,20 @@
 				Header
 			</div>
 			<div class="card-block">
-				<div class="row">
-					<div class="control-group">
-						<select id="histogram-select-category" placeholder="Select category...">
+				<div class="control-group">
+					<select id="histogram-select-category" placeholder="Select category...">
 
-						</select>
-					</div>
+					</select>
 				</div>
-				<div class="row">
-					<div class="control-group">
-						<select id="histogram-select-subcategory" placeholder="Select subcategory...">
+				<div class="control-group">
+					<select id="histogram-select-subcategory" placeholder="Select subcategory...">
 
-						</select>
-					</div>
+					</select>
 				</div>
-				<div class="row">
-					<div class="control-group">
-						<select id="histogram-select-metric" placeholder="Select metric...">
+				<div class="control-group">
+					<select id="histogram-select-metric" placeholder="Select metric...">
 
-						</select>
-					</div>
+					</select>
 				</div>
 				<div id="histogram">
 					<svg id="svg-histogram" width="100%" height="100">
@@ -76,7 +70,14 @@
 
 					</select>
 				</div>
-				<input type="checkbox" name="abscomp-checkbox" checked>
+				<div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-secondary active" id="scatterplot-button-relative">
+		    			<input type="radio" name="options" autocomplete="off"> Relative
+					</label>
+					<label class="btn btn-secondary" id="scatterplot-button-absolute">
+						<input type="radio" name="options" autocomplete="off"> Absolute
+					</label>
+				</div>
 				<div id="scatterplot">
 					<svg id="svg-scatterplot" width="100%" height="100">
 
@@ -110,11 +111,11 @@
 						<div class="col-12 text-center">Temporal Distribution</div>
 					</div>
 					<div class="row">
-						<div class="col text-right">1970</div>
+						<div class="col text-right" id="choropleth-slider-min">1970</div>
 						<div class="col-8">
 							<input id="choropleth-slider-range" style="width:100%;" type="range" value="1970" min="1970" max="2015" step="1">
 						</div>
-						<div class="col">2015</div>
+						<div class="col" id="choropleth-slider-max">2015</div>
 					</div>
 					<div class="row">
 						<div class="col-12 text-center">
@@ -157,6 +158,36 @@
 				</div>
 			</div>
 		</div>
+		<br>
+		<div class="card">
+			<div class="card-header">
+				Header
+			</div>
+			<div class="card-block">
+				<div class="control-group">
+					<select id="knn-select-category" placeholder="Select category...">
+
+					</select>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-12 text-center">k-Nearest Neighbors</div>
+					</div>
+					<div class="row">
+						<div class="col text-right" id="knn-slider-min">2</div>
+						<div class="col-8">
+							<input id="knn-slider-range" style="width:100%;" type="range" value="50" min="2" max="100" step="1">
+						</div>
+						<div class="col" id="knn-slider-max">100</div>
+					</div>
+				</div>
+				<div id="knn">
+					<svg id="svg-knn" width="100%" height="100">
+
+					</svg>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- Third-party libraries -->
@@ -171,12 +202,14 @@
 
 	<!-- D3 tip -->
 	<script src="js/third-party/d3-tip.js"></script>
+	<script src="js/third-party/kdTree.js"></script>
 
 	<!-- Charts -->
 	<script src="js/histogram.js"></script>
 	<script src="js/scatterplot.js"></script>
 	<script src="js/choropleth.js"></script>
 	<script src="js/kmeans.js"></script>
+	<script src="js/knn.js"></script>
 
 	<script src="js/loaddata.js"></script>
 	<script>
@@ -185,6 +218,7 @@
 		var spinner2 = new Spinner().spin(document.getElementById("scatterplot"));
 		var spinner3 = new Spinner().spin(document.getElementById("choropleth"));
 		var spinner4 = new Spinner().spin(document.getElementById("kmeans"));
+		var spinner5 = new Spinner().spin(document.getElementById("knn"));
 
 		// Callback
 		var callCharts = function() {
@@ -193,12 +227,14 @@
 			spinner2.stop();
 			spinner3.stop();
 			spinner4.stop();
+			spinner5.stop();
 
 			// Load charts
 			loadHistogram();
 			loadScatterplot();
 			loadChoropleth();
 			loadKMeans();
+			loadKNN();
 		}
 
 		loadData(callCharts);

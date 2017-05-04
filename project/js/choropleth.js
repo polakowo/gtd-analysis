@@ -284,7 +284,6 @@ function loadChoropleth() {
 		.attr("d", path)
 		.attr("opacity", 0.7)
 		.on("click", rotateGlobe)
-		.on("dblclick", zoomGlobe)
 		.on("mouseover", function(p) {
 			if (!mouseDown) {
 				d3.select(this).attr("opacity", 1);
@@ -606,6 +605,9 @@ function loadChoropleth() {
 	/////////////////////////////////
 
 	var sliderRange = $('#choropleth-slider-range');
+	var sliderMin = $('#choropleth-slider-min');
+	var sliderMax = $('#choropleth-slider-max');
+
 	var sliderButton = $("#choropleth-slider-button");
 	var timeMachineTimer;
 
@@ -616,6 +618,8 @@ function loadChoropleth() {
 		return d.year;
 	});
 
+	sliderMin.html(yearMin);
+	sliderMax.html(yearMax);
 	sliderRange.prop('min', yearMin);
 	sliderRange.prop('max', yearMax);
 	sliderRange.prop('value', focusYear);

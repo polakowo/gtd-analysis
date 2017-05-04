@@ -3,6 +3,10 @@ body {
     padding-bottom: 2rem;
 }
 
+.top-buffer {
+	margin-top: 10px; 
+}
+
 .control-group {
     width: 50%;
     height: 50%;

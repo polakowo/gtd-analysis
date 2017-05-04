@@ -31,6 +31,7 @@ svg text {
     border-radius: 5px;
     white-space: pre-wrap;
     pointer-events: none;
+	z-index: 1000;
 }
 
 

@@ -70,7 +70,7 @@ function loadScatterplot() {
 	var focusSubcategory = "All Regions";
 	var focusType = "Weapon Type";
 	var focusRole = "Victims";
-	var comparable = true;
+	var relative = true;
 	var focusDataset;
 
 	function updateDataset() {
@@ -101,7 +101,7 @@ function loadScatterplot() {
 
 	// Define key function to maintain consistency between data and DOM
 	var getX = function(d) {
-		if (comparable) {
+		if (relative) {
 			return Math.round(d[metrics[roles[focusRole][0]]] / d.nattacks * 100) / 100;
 		}
 		return d[metrics[roles[focusRole][0]]];
@@ -130,9 +130,9 @@ function loadScatterplot() {
 		.classed("x axis-label", true)
 		.attr("transform", "translate(" + svgW / 2 + "," + (svgH - padding) + ")");
 
-	// Dynamically update x label (comparable vs. absolute)
+	// Dynamically update x label (relative vs. absolute)
 	function updateXLabel() {
-		if (comparable) {
+		if (relative) {
 			svg.select(".x.axis-label")
 				.text("Avg(" + roles[focusRole][0] + ")");
 		} else {
@@ -174,7 +174,7 @@ function loadScatterplot() {
 	////////////////////////////
 
 	var getY = function(d) {
-		if (comparable) {
+		if (relative) {
 			return Math.round(d[metrics[roles[focusRole][1]]] / d.nattacks * 100) / 100;
 		}
 		return d[metrics[roles[focusRole][1]]];
@@ -201,9 +201,9 @@ function loadScatterplot() {
 		.attr("transform", "translate(" + padding + "," + svgH / 2 + ")rotate(-90)")
 		.attr("dy", ".71em");
 
-	// Dynamically update y label (comparable vs. absolute)
+	// Dynamically update y label (relative vs. absolute)
 	function updateYLabel() {
-		if (comparable) {
+		if (relative) {
 			svg.select(".y.axis-label")
 				.text("Avg(" + roles[focusRole][1] + ")");
 		} else {
@@ -512,17 +512,16 @@ function loadScatterplot() {
 	////////// Switch //////////
 	////////////////////////////
 
-	$("[name='abscomp-checkbox']").bootstrapSwitch({
-		onText: "Comparative",
-		offText: "Absolute",
-		size: "medium",
-		onColor: "default",
-		offColor: "default"
-	});
+	d3.select("#scatterplot-button-relative")
+		.on("click", function() {
+			relative = true;
 
-	$("[name='abscomp-checkbox']").on('switchChange.bootstrapSwitch', function(event, state) {
-		comparable = state;
+			updateAll();
+		});
+	d3.select("#scatterplot-button-absolute")
+		.on("click", function() {
+			relative = false;
 
-		updateAll();
-	});
+			updateAll();
+		});
 }
