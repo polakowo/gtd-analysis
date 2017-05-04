@@ -317,7 +317,12 @@ function loadScatterplot() {
 			.attr("cx", xMap)
 			.attr("cy", yMap)
 			.attr("r", zMap)
-			.attr("fill", cMap);
+			.attr("fill", cMap)
+			.attr("opacity", 0.7)
+			.attr("stroke", function(d) {
+				return cMap(d).darker(0.5);
+			})
+			.attr("stroke-width", 2);
 	}
 
 	updateCircles();

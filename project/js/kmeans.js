@@ -180,15 +180,6 @@ function loadKMeans() {
 
 	updateCentroids();
 
-	/////////////////////////////////
-	////////// Color scale //////////
-	/////////////////////////////////
-
-	var cScale = d3.scaleOrdinal(d3.schemeCategory10);
-	var cMap = function(d) {
-		return d3.color(cScale(getCentroidIndex(d)));
-	};
-
 	/////////////////////////////
 	////////// Hexbins //////////
 	/////////////////////////////
@@ -208,6 +199,22 @@ function loadKMeans() {
 	var getBinIndex = function(d) {
 		return [d.x, d.y, getCentroidIndex(d)];
 	};
+
+	// actual hexagons
+	var bins;
+
+	function updateBins() {
+		// Group data points by hexagons
+		bins = hexbin(focusPoints.map(function(d) {
+			return projection([d.lon, d.lat]);
+		}));
+	}
+
+	updateBins();
+
+	////////////////////////////////
+	////////// Assignment //////////
+	////////////////////////////////
 
 	// Calculate Euclidean distance
 	var euclideanDistance = function(dx, dy, cx, cy) {
@@ -230,15 +237,8 @@ function loadKMeans() {
 		return minIndex;
 	}
 
-	// actual hexagons
-	var bins;
-
-	function updateBins() {
-		// Group data points by hexagons
-		bins = hexbin(focusPoints.map(function(d) {
-			return projection([d.lon, d.lat]);
-		}));
-
+	// Assign each bin to the nearest centroid
+	function assignBins() {
 		bins.forEach(function(d, i) {
 			// Assign the hexagon to the closest centroid
 			d.index = nearestCentroidIndex(d);
@@ -255,7 +255,16 @@ function loadKMeans() {
 		});
 	}
 
-	updateBins();
+	assignBins();
+
+	/////////////////////////////////
+	////////// Color scale //////////
+	/////////////////////////////////
+
+	var cScale = d3.scaleOrdinal(d3.schemeCategory10);
+	var cMap = function(d) {
+		return d3.color(cScale(getCentroidIndex(d)));
+	};
 
 	///////////////////////////////
 	////////// Draw bins //////////
@@ -340,12 +349,14 @@ function loadKMeans() {
 				return getY(d);
 			})
 			.attr("r", 20)
-			.attr("fill", cMap)
-			.attr("stroke", function(d) {
+			.attr("fill", function(d) {
 				return cMap(d).darker(0.5);
 			})
 			.attr("opacity", 0)
-			.attr("stroke-width", 0.15 * 25)
+			.attr("stroke", function(d) {
+				return cMap(d).darker(1);
+			})
+			.attr("stroke-width", 3)
 			.on("mouseover", function(d, i) {
 				d3.selectAll(".centroid")
 					// Find all assigned hexbins and highlight them
@@ -427,10 +438,14 @@ function loadKMeans() {
 	////////////////////////////
 
 	// Once user changes the category, type, or K, update the entire chart
-	function updateAll() {
-		updatePoints();
+	function updateAll(onlyK) {
+		if (!onlyK) {
+			updatePoints();
+			updateBins();
+		}
+
 		updateCentroids();
-		updateBins();
+		assignBins();
 
 		redrawBins();
 		redrawCentroids();
@@ -473,7 +488,7 @@ function loadKMeans() {
 			if (t && t != focusType) {
 				focusType = t;
 
-				updateAll();
+				updateAll(false);
 			}
 		}
 	});
@@ -522,7 +537,7 @@ function loadKMeans() {
 				}
 				selectize2.setValue(focusType);
 
-				updateAll();
+				updateAll(false);
 			}
 		}
 	});
@@ -546,7 +561,7 @@ function loadKMeans() {
 			if (t && +t != focusK) {
 				focusK = +t;
 
-				updateAll();
+				updateAll(true);
 			}
 
 		}

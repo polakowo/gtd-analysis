@@ -240,7 +240,7 @@ function loadKNN() {
 			.attr("r", diameter)
 			.attr("fill", cMap(root))
 			.attr("fill-opacity", 0.3)
-			.attr("stroke", cMap(root).darker(0.5))
+			.attr("stroke", cMap(root))
 			.attr("stroke-opacity", 0.5)
 			.attr("stroke-width", 2)
 			.attr("pointer-events", "none")
