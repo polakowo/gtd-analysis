@@ -1,4 +1,4 @@
-# socialdata2017
+# SocialData2017
 
 ## [Assignment II](https://polakowo.github.io/socialdata2017/assignment2/)
 
