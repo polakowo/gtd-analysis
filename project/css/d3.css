@@ -1,37 +1,45 @@
 /*
+ *	Theme
+*/
+
+:root{
+	--bgd: #252525;
+	--stroke: #454545;
+	--land: #454545;
+	--graticule: #404040;
+}
+
+
+/*
  *	SVG
 */
 
 .svg-bg {
     width: 100%;
     height: 100%;
-    fill: #ffffff;
-    /*fill: #303030;*/
+    fill: var(--bgd);
 }
 
 svg text {
-    /*fill: #7f7f7f;*/
-    /*font-family: "Lucida Console", Monaco, monospace;*/
-    fill: #444444;
+	font-family: "OpenSansRegular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    fill: rgba(255, 255, 255, 0.7);
     pointer-events: none;
 }
-
 
 /*
  *	D3 Tip
 */
 
 .d3-tip {
+	font: "OpenSansSemiBold", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1;
     font-size: 12px;
-    font-weight: bold;
     padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
+    background: rgba(20, 20, 20, 0.9);
     border-radius: 5px;
     white-space: pre-wrap;
     pointer-events: none;
-	z-index: 1000;
+	z-index: 99;
 }
 
 
@@ -64,12 +72,11 @@ svg text {
 
 .tick line {
     opacity: 1;
-    /*stroke: #737373;*/
+    stroke: var(--stroke);
 }
 
 .grid line {
-    /*stroke: #474747;*/
-    stroke: lightgrey;
+    stroke: var(--stroke);
     stroke-opacity: 0.7;
 }
 
@@ -84,16 +91,17 @@ svg text {
 
 .graticule {
     fill: none;
-    stroke: lightgrey;
-	/*stroke-dasharray: 3, 3;*/
-    stroke-width: .5px;
+    stroke: var(--graticule);
+	stroke-dasharray: 3 3;
 }
 
 .sphere {
-    fill: #ffffff;
+    fill: var(--bgd);
+	stroke: var(--graticule);
+	stroke-width: 2;
 }
 
 .land {
-    stroke: #ffffff;
+    stroke: var(--bgd);
     stroke-width: 0.5px;
 }

@@ -92,7 +92,7 @@ function loadKMeans() {
 		.attr("clip-path", "url(#kmeans-area)")
 		.attr("class", "land")
 		.attr("d", path)
-		.attr("fill", "#C7C7C7");
+		.attr("fill", "var(--land)");
 
 	////////////////////////////
 	////////// Points //////////
@@ -187,7 +187,7 @@ function loadKMeans() {
 	// Radius of hexagon
 	var radius = 5;
 
- 	// Set bounds for hexagons
+	// Set bounds for hexagons
 	var hexbin = d3.hexbin()
 		.radius(radius)
 		.extent([
@@ -270,6 +270,17 @@ function loadKMeans() {
 	////////// Draw bins //////////
 	///////////////////////////////
 
+	var binOpacity = {
+		// If user hovers over foreign centroid
+		shadow: 0.3,
+		// If user does nothing
+		inactive: 0.5,
+		// If user hovers over assigned centroid
+		active: 0.7,
+		// If user hovers over bin
+		highlight: 1
+	};
+
 	function redrawBins() {
 		// EXIT old elements not present in new data.
 		clip.selectAll(".bin")
@@ -289,9 +300,10 @@ function loadKMeans() {
 			.attr("d", function(d) {
 				return "M" + d.x + "," + d.y + hexbin.hexagon();
 			})
+			.attr("fill-opacity", binOpacity.fill)
 			.on("mouseover", function(d, i) {
 				d3.select(this)
-					.attr("opacity", 1);
+					.attr("opacity", binOpacity.highlight);
 				tip.html(function(d) {
 						var homeCountry = getCountry(d);
 						if (!homeCountry) {
@@ -300,13 +312,13 @@ function loadKMeans() {
 						} else {
 							homeCountry = "<br><br><span style='color:grey'>" + homeCountry + "</span>";
 						}
-						return "<span style='color:" + cMap(d).brighter(0.5) + "'>Centroid #" + getCentroidIndex(d) + "</span>" + homeCountry + "<br><hr style='border-color:grey'>Attacks: " + d.length;
+						return "<span style='color:" + cMap(d).brighter(0.5) + "'>Centroid #" + getCentroidIndex(d) + "</span>" + homeCountry + "<br><br><hr>Attacks: " + d.length;
 					})
 					.show(d);
 			})
 			.on("mouseout", function(d, i) {
 				d3.select(this)
-					.attr("opacity", 0.7);
+					.attr("opacity", binOpacity.inactive);
 				tip.hide();
 			})
 			.attr("opacity", 0);
@@ -316,8 +328,10 @@ function loadKMeans() {
 			.data(bins, getBinIndex)
 			.transition("update")
 			.duration(1000)
-			.attr("fill", cMap)
-			.attr("opacity", 0.7);
+			.attr("fill", function(d) {
+				return cMap(d).darker(0.5);
+			})
+			.attr("opacity", binOpacity.inactive);
 	}
 
 	redrawBins();
@@ -325,6 +339,16 @@ function loadKMeans() {
 	////////////////////////////////////
 	////////// Draw centroids //////////
 	////////////////////////////////////
+
+	var centroidOpacity = {
+		// Opacity of fill and stroke if overall opacity is 1
+		fill: 0.7,
+		stroke: 1,
+		// Overall opacity
+		shadow: 0.5,
+		inactive: 0.7,
+		active: 1
+	};
 
 	function redrawCentroids() {
 		// EXIT old elements not present in new data.
@@ -349,42 +373,39 @@ function loadKMeans() {
 				return getY(d);
 			})
 			.attr("r", 20)
-			.attr("fill", function(d) {
-				return cMap(d).darker(0.5);
-			})
-			.attr("opacity", 0)
-			.attr("stroke", function(d) {
-				return cMap(d).darker(1);
-			})
+			.attr("fill", cMap)
+			.attr("stroke", cMap)
 			.attr("stroke-width", 3)
+			.attr("fill-opacity", centroidOpacity.fill)
+			.attr("stroke-opacity", centroidOpacity.stroke)
 			.on("mouseover", function(d, i) {
 				d3.selectAll(".centroid")
-					// Find all assigned hexbins and highlight them
-					.attr("opacity", function(c) {
-						if (getCentroidIndex(d) == getCentroidIndex(c)) {
-							return 1;
+					.attr("opacity", function(b) {
+						if (getCentroidIndex(d) == getCentroidIndex(b)) {
+							return centroidOpacity.active;
 						} else {
-							return 0.3;
+							return centroidOpacity.shadow;
 						}
 					});
+				// Find all assigned hexbins and highlight them
 				d3.selectAll(".bin")
 					.attr("opacity", function(b) {
 						if (getCentroidIndex(d) == getCentroidIndex(b)) {
-							return 1;
+							return binOpacity.active;
 						} else {
-							return 0.3;
+							return binOpacity.shadow;
 						}
 					});
 				tip.html(function(d) {
-						return "<span style='color:" + cMap(d).brighter(0.5) + "'>Centroid #" + getCentroidIndex(d) + "</span><br><hr style='border-color:grey'>Attacks: " + d.count;
+						return "<span style='color:" + cMap(d).brighter(0.5) + "'>Centroid #" + getCentroidIndex(d) + "</span><br><br><hr>Attacks: " + d.count;
 					})
 					.show(d);
 			})
 			.on("mouseout", function(d, i) {
 				d3.selectAll(".centroid")
-					.attr("opacity", 0.7);
+					.attr("opacity", centroidOpacity.inactive);
 				d3.selectAll(".bin")
-					.attr("opacity", 0.7);
+					.attr("opacity", binOpacity.inactive);
 				tip.hide();
 			});
 
@@ -393,7 +414,7 @@ function loadKMeans() {
 			.data(focusCentroids, getCentroidIndex)
 			.transition("update")
 			.duration(1000)
-			.attr("opacity", 0.7);
+			.attr("opacity", centroidOpacity.inactive);
 	}
 
 	redrawCentroids();

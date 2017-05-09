@@ -1,22 +1,22 @@
 function loadData(callback) {
 	d3.queue()
-		// Data
-		.defer(d3.csv, "data/histogram.csv")
-		.defer(d3.csv, "data/scatterplot.csv")
-		.defer(d3.csv, "data/choropleth.csv")
-		.defer(d3.csv, "data/points.csv")
-		.defer(d3.csv, "data/centroids.csv")
 		// Dicts (contains map of all strings to reduce the size of each csv)
-		.defer(d3.json, "dicts/strings.json")
+		.defer(d3.json, "json/strings.json")
+		// Data
+		.defer(d3.csv, "csv/histogram.csv")
+		.defer(d3.csv, "csv/scatterplot.csv")
+		.defer(d3.csv, "csv/choropleth.csv")
+		.defer(d3.csv, "csv/points.csv")
+		.defer(d3.csv, "csv/centroids.csv")
 		// Maps
 		.defer(d3.json, "maps/world.json")
 		.await(function(error,
+				stringsDict,
 				histogramData,
 				scatterplotData,
 				choroplethData,
 				pointsData,
 				centroidsData,
-				stringsDict,
 				worldMap) {
 			if (error) throw error;
 
@@ -81,12 +81,12 @@ function loadData(callback) {
 			});
 
 			this.data = {
+				stringsDict: stringsDict,
 				histogramData: histogramData,
 				scatterplotData: scatterplotData,
 				choroplethData: choroplethData,
 				pointsData: pointsData,
 				centroidsData: centroidsData,
-				stringsDict: stringsDict,
 				worldMap: worldMap
 			};
 

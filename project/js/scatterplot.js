@@ -276,6 +276,15 @@ function loadScatterplot() {
 	////////// Draw circles //////////
 	//////////////////////////////////
 
+	var circleOpacity = {
+		// Opacity of fill and stroke if overall opacity is 1
+		fill: 0.7,
+		stroke: 1,
+		// Overall opacity
+		inactive: 0.7,
+		active: 1
+	};
+
 	// Update circles when user changes the category/role
 	function updateCircles() {
 
@@ -292,15 +301,14 @@ function loadScatterplot() {
 			.data(focusDataset, getIndex)
 			.enter()
 			.append("circle")
-			.attr("opacity", 0.7)
 			.on("mouseover", function(d) {
 				d3.select(this)
-					.attr("opacity", 1);
+					.attr("opacity", circleOpacity.active);
 				tip.show(d);
 			})
 			.on("mouseout", function(d) {
 				d3.select(this)
-					.attr("opacity", 0.7);
+					.attr("opacity", circleOpacity.inactive);
 				tip.hide(d);
 			});
 
@@ -318,11 +326,11 @@ function loadScatterplot() {
 			.attr("cy", yMap)
 			.attr("r", zMap)
 			.attr("fill", cMap)
-			.attr("opacity", 0.7)
-			.attr("stroke", function(d) {
-				return cMap(d).darker(0.5);
-			})
-			.attr("stroke-width", 2);
+			.attr("fill-opacity", circleOpacity.fill)
+			.attr("stroke", cMap)
+			.attr("stroke-width", 2)
+			.attr("stroke-opacity", circleOpacity.stroke)
+			.attr("opacity", circleOpacity.inactive);
 	}
 
 	updateCircles();
@@ -335,7 +343,7 @@ function loadScatterplot() {
 		.attr("class", "d3-tip")
 		.direction("ne")
 		.html(function(d) {
-			return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getSubtype(d) + "</span><hr style='border-color:grey'>Attacks: " + getZ(d);
+			return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getSubtype(d) + "</span><br><br><hr>Attacks: " + getZ(d);
 		});
 	svg.call(tip);
 

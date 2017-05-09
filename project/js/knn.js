@@ -96,15 +96,15 @@ function loadKNN() {
 		.attr("clip-path", "url(#knn-area)")
 		.attr("class", "land")
 		.attr("d", path)
-		.attr("fill", "#C7C7C7")
+		.attr("fill", "var(--land)")
 		.attr("pointer-events", "none");
 
 	//////////////////////////////
 	////////// k-d tree //////////
 	//////////////////////////////
 
-	// Calculate Euclidean distance
-	var distance = function(a, b) {
+	// Calculate Euclidean euclideanDistance
+	var euclideanDistance = function(a, b) {
 		return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
 	};
 
@@ -113,7 +113,7 @@ function loadKNN() {
 		d.x = getX(d);
 		d.y = getY(d);
 		return d;
-	}), distance, ["x", "y"]);
+	}), euclideanDistance, ["x", "y"]);
 
 	/////////////////////////////////
 	////////// Color scale //////////
@@ -152,12 +152,14 @@ function loadKNN() {
 
 	// Classify (get the most common type among the points)
 	function classify(points) {
+		// Group points by type
 		var pointsGrouped = d3.nest()
 			.key(function(d) {
 				return d[categories[focusCategory]];
 			})
 			.object(points);
 
+		// Count number of points of each type and pick the most common one
 		var max = 0;
 		var result;
 		for (var type in pointsGrouped) {
@@ -171,7 +173,7 @@ function loadKNN() {
 		return result;
 	}
 
-	// Find neighbors
+	// Find neighbors using kDTree
 	function findNeighbors(x, y) {
 		var nearest = tree.nearest({
 			x: x,
@@ -186,12 +188,12 @@ function loadKNN() {
 		return result;
 	}
 
-	// Get distance (for zone)
+	// Get diameter between the two most distant points in a zone
 	function zoneDiameter(root, points) {
 		var maxDistance = 0;
 		points.forEach(function(d, i) {
-			if (distance(root, d) > maxDistance) {
-				maxDistance = distance(root, d);
+			if (euclideanDistance(root, d) > maxDistance) {
+				maxDistance = euclideanDistance(root, d);
 			}
 		});
 		return maxDistance;
@@ -202,10 +204,10 @@ function loadKNN() {
 		preventDefault(event);
 
 		var root = {
-			x: d3.mouse(this)[0] - margin.left, // adjust for clip
+			x: d3.mouse(this)[0] - margin.left, // adjust to clip bounds
 			y: d3.mouse(this)[1] - margin.top
 		};
-
+		// If cursor outside of the clip area, then destroy active elements
 		if (root.x < 0 || root.y < 0 || root.x > width || root.y > height) {
 			mouseleave();
 			return;
@@ -227,11 +229,17 @@ function loadKNN() {
 		////////// Draw zone //////////
 		///////////////////////////////
 
+		var zoneOpacity = {
+			inactive: 0.3,
+			active: 0.5
+		};
+
 		var diameter = zoneDiameter(root, neighbors);
 
 		clip.select("#zone")
 			.remove();
 
+		// Our zone, which also acts as a target element for d3-tip
 		var target = clip.append("circle")
 			.attr("clip-path", "url(#knn-area)")
 			.attr("id", "zone")
@@ -239,9 +247,9 @@ function loadKNN() {
 			.attr("cy", root.y)
 			.attr("r", diameter)
 			.attr("fill", cMap(root))
-			.attr("fill-opacity", 0.3)
+			.attr("fill-opacity", zoneOpacity.inactive)
 			.attr("stroke", cMap(root))
-			.attr("stroke-opacity", 0.5)
+			.attr("stroke-opacity", zoneOpacity.active)
 			.attr("stroke-width", 2)
 			.attr("pointer-events", "none")
 			.node();
@@ -249,6 +257,8 @@ function loadKNN() {
 		////////////////////////////////////
 		////////// Draw neighbors //////////
 		////////////////////////////////////
+
+		var neighborsOpacity = 0.7;
 
 		// Remove last point
 		clip.selectAll(".neighbors")
@@ -265,7 +275,7 @@ function loadKNN() {
 				return "translate(" + getX(d) + "," + getY(d) + ")";
 			})
 			.attr("fill", cMap)
-			.attr("opacity", 0.7)
+			.attr("opacity", neighborsOpacity)
 			.attr("pointer-events", "none");
 
 		////////////////////////////
@@ -282,11 +292,12 @@ function loadKNN() {
 				} else {
 					homeCountry = "<br><br><span style='color:grey'>" + homeCountry + "</span>";
 				}
-				return "<span style='color:" + cMap(root).brighter(0.5) + "'>" + root[categories[focusCategory]] + "</span>" + homeCountry + "<br><hr style='border-color:grey'>Share: " + root.share + "%";
+				return "<span style='color:" + cMap(root).brighter(0.5) + "'>" + root[categories[focusCategory]] + "</span>" + homeCountry + "<br><br><hr>Share: " + root.share + "%";
 			})
 			.show(null, target);
 	}
 
+	// If mouse leaves working area then destroy elements and hide d3-tip
 	function mouseleave() {
 		clip.selectAll("#zone")
 			.remove();
@@ -297,10 +308,12 @@ function loadKNN() {
 		tip.hide();
 	}
 
+	// With wheel action user can adjust the k
 	function wheel() {
 		var wheelUp = event.deltaY < 0;
 		focusK = wheelUp ? focusK + 1 : focusK - 1;
-		focusK = clamp(focusK, kMin, kMax); // limit k to be between 1 and 100
+		// Force k to be between kMin and kMax
+		focusK = clamp(focusK, kMin, kMax);
 		$('#knn-slider-range').prop('value', focusK);
 		mousemove.call(this);
 

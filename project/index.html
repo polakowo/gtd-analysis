@@ -10,199 +10,806 @@
 
 	<title>Analysis of Global Terrorism Database</title>
 
-	<!-- Third-party CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css" integrity="sha256-sj3qkRTZIL8Kff5fST1TX0EF9lEmSfFgjNvuiw2CV5w=" crossorigin="anonymous" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap3.min.css" integrity="sha256-xaHB15TZbLhew82A2NzY8rvCCp/REcOA/kSpWWO7TlE=" crossorigin="anonymous" />
-
-	<!-- Our CSS -->
-	<link rel="stylesheet" href="css/styles.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/midnight-styles.css">
+	<link rel="stylesheet" href="css/pygment_trac.css">
+	<link rel="stylesheet" href="css/custom.css">
 	<link rel="stylesheet" href="css/d3.css">
+	<link rel="stylesheet" href="css/selectize.css">
 
 </head>
 
 <body>
-	<div class="container">
-		<div class="card">
-			<div class="card-header">
-				Header
-			</div>
-			<div class="card-block">
-				<div class="control-group">
-					<select id="histogram-select-category" placeholder="Select category...">
-
-					</select>
-				</div>
-				<div class="control-group">
-					<select id="histogram-select-subcategory" placeholder="Select subcategory...">
-
-					</select>
-				</div>
-				<div class="control-group">
-					<select id="histogram-select-metric" placeholder="Select metric...">
-
-					</select>
-				</div>
-				<div id="histogram">
-					<svg id="svg-histogram" width="100%" height="100">
-
-					</svg>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="card">
-			<div class="card-header">
-				Header
-			</div>
-			<div class="card-block">
-				<div class="control-group">
-					<select id="scatterplot-select-category" placeholder="Select category...">
-
-					</select>
-					<select id="scatterplot-select-subcategory" placeholder="Select subcategory...">
-
-					</select>
-					<select id="scatterplot-select-type" placeholder="Select type...">
-
-					</select>
-					<select id="scatterplot-select-role" placeholder="Select role...">
-
-					</select>
-				</div>
-				<div class="btn-group" data-toggle="buttons">
-					<label class="btn btn-secondary active" id="scatterplot-button-relative">
-		    			<input type="radio" name="options" autocomplete="off"> Relative
-					</label>
-					<label class="btn btn-secondary" id="scatterplot-button-absolute">
-						<input type="radio" name="options" autocomplete="off"> Absolute
-					</label>
-				</div>
-				<div id="scatterplot">
-					<svg id="svg-scatterplot" width="100%" height="100">
-
-					</svg>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="card">
-			<div class="card-header">
-				Header
-			</div>
-			<div class="card-block">
-				<div class="control-group">
-					<select id="choropleth-select-category" placeholder="Select category...">
-
-					</select>
-				</div>
-				<div class="control-group">
-					<select id="choropleth-select-subcategory" placeholder="Select subcategory...">
-
-					</select>
-				</div>
-				<div class="control-group">
-					<select id="choropleth-select-metric" placeholder="Select metric...">
-
-					</select>
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-12 text-center">Temporal Distribution</div>
-					</div>
-					<div class="row">
-						<div class="col text-right" id="choropleth-slider-min">1970</div>
-						<div class="col-8">
-							<input id="choropleth-slider-range" style="width:100%;" type="range" value="1970" min="1970" max="2015" step="1">
-						</div>
-						<div class="col" id="choropleth-slider-max">2015</div>
-					</div>
-					<div class="row">
-						<div class="col-12 text-center">
-							<button type="button" class="btn btn-info" id="choropleth-slider-button">Time Machine</button>
-						</div>
-					</div>
-				</div>
-				<div id="choropleth">
-					<svg id="svg-choropleth" width="100%" height="100">
-
-					</svg>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="card">
-			<div class="card-header">
-				Header
-			</div>
-			<div class="card-block">
-				<div class="control-group">
-					<select id="kmeans-select-category" placeholder="Select category...">
-
-					</select>
-				</div>
-				<div class="control-group">
-					<select id="kmeans-select-subcategory" placeholder="Select subcategory...">
-
-					</select>
-				</div>
-				<div class="control-group">
-					<select id="kmeans-select-k" placeholder="Select K...">
-
-					</select>
-				</div>
-				<div id="kmeans">
-					<svg id="svg-kmeans" width="100%" height="100">
-
-					</svg>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="card">
-			<div class="card-header">
-				Header
-			</div>
-			<div class="card-block">
-				<div class="control-group">
-					<select id="knn-select-category" placeholder="Select category...">
-
-					</select>
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-12 text-center">k-Nearest Neighbors</div>
-					</div>
-					<div class="row">
-						<div class="col text-right" id="knn-slider-min">2</div>
-						<div class="col-8">
-							<input id="knn-slider-range" style="width:100%;" type="range" value="50" min="2" max="100" step="1">
-						</div>
-						<div class="col" id="knn-slider-max">100</div>
-					</div>
-				</div>
-				<div id="knn">
-					<svg id="svg-knn" width="100%" height="100">
-
-					</svg>
-				</div>
-			</div>
+	<div id="header">
+		<div class="wrapper">
+			<ul class="nav left">
+				<li><a href="https://github.com/mattgraham/midnight" class="btn">View On GitHub</a></li>
+				<li><a href="https://github.com/mattgraham/midnight" class="btn">Explainer Notebook</a></li>
+			</ul>
+			<ul class="nav right">
+				<li class="download-title">Download cleaned data</li>
+				<li class="downloads"><a href="https://www.start.umd.edu/gtd/" class="btn">ZIP</a></li>
+			</ul>
 		</div>
 	</div>
+	<!-- end header -->
+	<div class="wrapper">
+		<section>
+			<div id="title">
+				<h1>Global Terrorism Database: <em>Interactive Analysis </em><sup><span class="highlight">2.0</span></sup></h1>
+				<h5>As final project assignment of the course Social Data (2017) at DTU 💣</h5>
+				<hr class="dashed">
+				<span class="credits left">Project maintained by <a href="https://github.com/polakowo">polakowo</a></span>
+				<span class="credits right">This project is released under the terms of the MIT license.</span>
+			</div>
+		</section>
+		<section>
+			<h2>Table of contents</h2>
+			<hr class="dashed">
+			<p>Next you will find the table of contents. To jump to a section, click on the particular header.</p>
+			<ul class="level1">
+				<li><a href="#section-introduction">1. Introduction</a></li>
+				<li><a href="#section-dataset">2. Dataset</a></li>
+				<ul class="level2">
+					<li><a href="#section-columns">2.1. Columns</a></li>
+				</ul>
+				<li><a href="#section-charts">3. Charts</a></li>
+				<ul class="level2">
+					<li><a href="#section-histogram">3.1. Histogram</a></li>
+					<li><a href="#section-scatterplot">3.2. Scatterplot</a></li>
+					<li><a href="#section-choropleth">3.3. Choropleth</a></li>
+					<li><a href="#section-kmeans">3.4. K-Means</a></li>
+					<li><a href="#section-knn">3.5. K-Nearest Neighbors</a></li>
+				</ul>
+				<li><a href="#section-further-information">4. Further information</a></li>
+			</ul>
+		</section>
+		<section>
+			<div id="section-introduction" class="anchor"></div>
+			<h2>1. Introduction</h2>
+			<hr class="dashed">
+			<p>
+				The scope of this project is to drill down the terrorist events around the world <span class="highlight">from 1970 through 2015</span>
+			</p>
+			<p>The primary objectives are
+				<ul>
+					<li>to identify and highlight the geographical and temporal patterns of the terrorism,</li>
+					<li>to discover the main parameters of a successful terrorist attack, and</li>
+					<li>to allow the user to customize the analysis and to explore the data in the most interactive way.</li>
+				</ul>
+			</p>
+			<p>
+				The idea behind the project is to find out how the terrorism has developed in the Western world and whether we need to build tall walls to protect ourself against future threats. We chose our topic to be more global oriented, because
+			</p>
+			<ul>
+				<li>It enables aggregation on many geographical levels including <span class="highlight">the globe, regions, countries, states, and cities</span></li>
+				<li>It is very diversified and encapsulates many interesting attributes</li>
+				<li>It has both temporal and geographical data</li>
+			</ul>
+			<p>
+				More general information about the project you find in the video below.
+			</p>
+			<iframe src="https://player.vimeo.com/video/212841393" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<p><a href="https://vimeo.com/212841393">SocialData2017</a> from <a href="https://vimeo.com/user21645077">polakowo</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+		</section>
+		<section>
+			<div id="section-dataset" class="anchor"></div>
+			<h2>2. Dataset</h2>
+			<hr class="dashed">
+			<p>
+				The dataset is very comprehensive and contains a lot of terrorism-related information. We downloaded the entire dataset <em>Global Terrorism Database</em>, available from <a href="http://start.umd.edu/gtd/">Gtd Homepage</a>. It contains <span class="highlight">156,772 terrorist attacks x 137 features</span>,
+				and takes <span class="highlight">142.3 MB of disk space</span>. It's worth to mention that it is almost completely encoded (strings/long numbers to short numbers). To decode the dataset we looked at the codebook available <a href="http://start.umd.edu/gtd/downloads/Codebook.pdf">here</a>.
+				After exploring the codebook we discovered some columns to be redundant, or not relevant, which we removed. See the corresponding notebook <em>Cleaning Data</em> for further details on how we approached.
+			</p>
+			<p>
+				We ended up working on <span class="highlight">23 columns</span>, which contain the quantitative as well as the qualitative information of the main interest. After decoding, cleaning, filtering, and encoding steps, we've got <span class="highlight">156,772 rows x 23 columns</span>,
+				or equivalently <span class="highlight">26.8 MB of disk space</span>
+			</p>
+			<p>
+				You can download the cleaned dataset from <a href="">this link</a> to try it out by yourself!
+			</p>
+			<div id="section-columns" class="anchor"></div>
+			<h3>2.1. Columns</h3>
+			<hr class="dashed">
+			<p>
+				Below you find some basic information on columns we used in charts.
+			</p>
+			<p>
+				The first table contains numeric data:
+			</p>
+			<table>
+				<thead>
+					<th>
+						Column name
+					</th>
+					<th>
+						Type
+					</th>
+					<th>
+						Min
+					</th>
+					<th>
+						Max
+					</th>
+					<th>
+						NaN
+					</th>
+					<th>
+						Description
+					</th>
+				</thead>
+				<tbody>
+					<tr class="int">
+						<td>
+							<code>year</code>
+						</td>
+						<td>
+							int
+						</td>
+						<td>
+							1970
+						</td>
+						<td>
+							2015
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Year
+						</td>
+					</tr>
+					<tr class="int">
+						<td>
+							<code>nkilled</code>
+						</td>
+						<td>
+							int
+						</td>
+						<td>
+							0
+						</td>
+						<td>
+							1500
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Total Number of Fatalities
+						</td>
+					</tr>
+					<tr class="int">
+						<td>
+							<code>nkilledter</code>
+						</td>
+						<td>
+							int
+						</td>
+						<td>
+							0
+						</td>
+						<td>
+							500
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Number of Perpetrator Fatalities
+						</td>
+					</tr>
+					<tr class="int">
+						<td>
+							<code>nwounded</code>
+						</td>
+						<td>
+							int
+						</td>
+						<td>
+							0
+						</td>
+						<td>
+							5500
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Total Number of Injured
+						</td>
+					</tr>
+					<tr class="int">
+						<td>
+							<code>nwoundedter</code>
+						</td>
+						<td>
+							int
+						</td>
+						<td>
+							0
+						</td>
+						<td>
+							200
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Number of Perpetrators Injured
+						</td>
+					</tr>
+					<tr class="float">
+						<td>
+							<code>lat</code>
+						</td>
+						<td>
+							float
+						</td>
+						<td>
+							-53.1546
+						</td>
+						<td>
+							74.6336
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Latitude (of city)
+						</td>
+					</tr>
+					<tr class="float">
+						<td>
+							<code>lon</code>
+						</td>
+						<td>
+							float
+						</td>
+						<td>
+							-176.176
+						</td>
+						<td>
+							179.367
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Longitude (of city)
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				The second table contains categorical data:
+			</p>
+			<table>
+				<thead>
+					<th>
+						Column name
+					</th>
+					<th>
+						Unique
+					</th>
+					<th>
+						Top
+					</th>
+					<th>
+						NaN
+					</th>
+					<th>
+						Description
+					</th>
+				</thead>
+				<tbody>
+					<tr class="string">
+						<td>
+							<code>region</code>
+						</td>
+						<td>
+							12
+						</td>
+						<td>
+							Middle East & North Africa
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Region
+						</td>
+					</tr>
+					<tr class="string">
+						<td>
+							<code>country</code>
+						</td>
+						<td>
+							204
+						</td>
+						<td>
+							Iraq
+						</td>
+						<td>
+							None
+						</td>
+						<td>
+							Country
+						</td>
+					</tr>
+					<tr class="string">
+						<td>
+							<code>weapontype</code>
+						</td>
+						<td>
+							12
+						</td>
+						<td>
+							Explosives/Bombs/Dynamite
+						</td>
+						<td>
+							7.59%
+						</td>
+						<td>
+							Weapon Type
+						</td>
+					</tr>
+					<tr class="string">
+						<td>
+							<code>attacktype</code>
+						</td>
+						<td>
+							9
+						</td>
+						<td>
+							Bombing/Explosion
+						</td>
+						<td>
+							3.38%
+						</td>
+						<td>
+							Attack Type
+						</td>
+					</tr>
+					<tr class="string">
+						<td>
+							<code>targettype</code>
+						</td>
+						<td>
+							22
+						</td>
+						<td>
+							Private Citizens & Property
+						</td>
+						<td>
+							2.46%
+						</td>
+						<td>
+							Target/Victim Type
+						</td>
+					</tr>
+					<tr class="string">
+						<td>
+							<code>gname</code>
+						</td>
+						<td>
+							3216
+						</td>
+						<td>
+							Unknown
+						</td>
+						<td>
+							46.41%
+						</td>
+						<td>
+							Perpetrator Group Name
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				<em>Hint: Every categorical feature is encoded with integers to save a lot of space. Therefore, we introduce a global JSON dict called <code>strings.json</code> containing a map of all integers to their corresponding strings. The decoding process takes place after the data has been successfully loaded to the front end, so none of the charts must take care of it.</em>
+			</p>
+			<p>
+				You may already noticed that the amount of columns is less than 23. We limited the amount of information to be able to deliver the information quickly and make charts to be more responsive (= less laggy). Below you find optional columns we skipped.
+				<table>
+					<thead>
+						<th>
+							Column name
+						</th>
+						<th>
+							Description
+						</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<code>state</code>
+							</td>
+							<td>
+								Province / Administrative Region / State
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>city</code>
+							</td>
+							<td>
+								City
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>extended</code>
+							</td>
+							<td>
+								Extended Incident?
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>multiple</code>
+							</td>
+							<td>
+								Part of Multiple Incident?
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>success</code>
+							</td>
+							<td>
+								Successful Attack?
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>suicide</code>
+							</td>
+							<td>
+								Suicide Attack?
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>nter</code>
+							</td>
+							<td>
+								Number of Perpetrators
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>claimed</code>
+							</td>
+							<td>
+								Claim of Responsibility?
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>property</code>
+							</td>
+							<td>
+								Property Damage
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>propertyextent</code>
+							</td>
+							<td>
+								Extent of Property Damage
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				To get more information on those columns, feel free to jump to <a href="">the Explainer Notebook</a>, where you find additional charts (using <code>Python</code> and <code>Plotly</code>) capturing those columns as well.
+			</p>
+		</section>
+		<section>
+			<div id="section-charts" class="anchor"></div>
+			<h2>3. Charts</h2>
+			<hr class="dashed">
+			<p>
+				Charts are vital in presentation of data. They are used in both exploratory and descriptive analysis. As the most aggregations are time-intensive, we outsource them to the back end. We perform every major task in two steps:
+				<ol>
+					<li>Use <code>iPython</code> to process the data, e.g., apply filters, perform aggregations, etc.</li>
+					<li>On the client's side, use <code>d3.js</code> that facilitates generation and manipulation of web documents with data, for construction of beautiful interactive data visualizations.</li>
+				</ol>
+			</p>
+		</section>
+		<section>
+			<div id="section-histogram" class="anchor"></div>
+			<h3>3.1. Histogram</h3>
+			<hr class="dashed">
+			<p>
+				This histogram aims at exploration of temporal patterns of terrorism <span class="highlight">from 1970 through 2015</span>
+			</p>
+			<p>
+				The main question we address is
+				<blockquote>
+					<em>How has the terrorism developed over time from the perspective of geographical units, types or terrorist groups?</em>
+				</blockquote>
+			</p>
+			<p>
+				We're interested in the temporal aspect of terrorist development, which touches many interesting attributes:
+				<ol>
+					<li><span class="highlight">Geographical units</span> in form of regions, countries, states and cities</li>
+					<li><span class="highlight">Types</span>, such as weapon, attack and target types</li>
+					<li><span class="highlight">Terrorist groups</span></li>
+				</ol>
+				Basically, we can aggregate on every categorical column, what we actually did.
+			</p>
+			<p>
+				We implemented the following cool features:
+			</p>
+			<ul>
+				<li>Choose the main category (e.g., <em>Region</em>)</li>
+				<li>Choose an item of the selected category (e.g., <em>Western Europe</em>)</li>
+				<li>Choose a metric (e.g., <em>Killed</em>)</li>
+				<li>Hover over a bar to display the year's share in % (e.g., <em>7%</em> of all victims in <em>Western Europe</em> were killed in year <em>1988</em>).</li>
+			</ul>
+			<div class="half">
+				<select id="histogram-select-category" placeholder="Select category...">
 
-	<!-- Third-party libraries -->
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.js" integrity="sha256-jVfFb7AbGi7S/SLNl8SB4/MYaf549eEs+NlIWMoARHg=" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js" integrity="sha256-AKUJYz2DyEoZYHh2/+zPHm1tTdYb4cmG8HC2ydmTzM4=" crossorigin="anonymous"></script>
+				</select>
+				<select id="histogram-select-subcategory" placeholder="Select subcategory...">
+
+				</select>
+				<select id="histogram-select-metric" placeholder="Select metric...">
+
+				</select>
+			</div>
+			<div class="loader"></div>
+			<div id="histogram" style="display:none;">
+				<svg id="svg-histogram">
+
+				</svg>
+			</div>
+		</section>
+		<section>
+			<div id="section-scatterplot" class="anchor"></div>
+			<h3>3.2. Scatterplot</h3>
+			<hr class="dashed">
+			<p>
+				The second chart is a scatterplot, which encodes <span class="highlight">3 numeric attributes</span>
+				<ul>
+					<li><span class="highlight">X</span>: <em>Killed</em>,</li>
+					<li><span class="highlight">Y</span>: <em>Wounded</em>, and</li>
+					<li><span class="highlight">Size</span>: <em>Count</em></li>
+				</ul>
+				at a time. We use the scatterplot to compare categorical attributes (like <em>Weapon Type</em>) by numeric metrics. Because many of those attributes compare differently across regions or even countries, we added the ability to aggregate by geographical
+				units.
+			</p>
+			<p>
+				The main question we address is
+				<blockquote>
+					<em>What are
+						<ul>
+							<li>the most lethal weapon types,</li>
+							<li>the most effective attack types, and</li>
+							<li>the most vulnerable target types</li>
+						</ul>
+						in the selected geographical unit?</em>
+				</blockquote>
+			</p>
+			<p>
+				We implemented the following cool features:
+			</p>
+			<ul>
+				<li>Choose the level of aggregation (e.g., <em>Country</em>)</li>
+				<li>Choose an item on the selected level (e.g., <em>Germany</em>)</li>
+				<li>Choose the categorical variable (e.g., <em>Target Type</em>)</li>
+				<li>Choose the role (either <em>Victims</em> or <em>Terrorists</em>)</li>
+				<li>Switch between <em>Relative</em> (average per attack) and <em>Absolute</em> (sum) metrics</li>
+				<li>Hover over a circle to display the label and the number of attacks.</li>
+			</ul>
+			<div class="half">
+				<select id="scatterplot-select-category" placeholder="Select category...">
+
+				</select>
+				<select id="scatterplot-select-subcategory" placeholder="Select subcategory...">
+
+				</select>
+				<select id="scatterplot-select-type" placeholder="Select type...">
+
+				</select>
+				<select id="scatterplot-select-role" placeholder="Select role...">
+
+				</select>
+
+				<input id="scatterplot-button-relative" type="radio" name="options" autocomplete="off" checked>
+				<label for="scatterplot-button-relative">
+					<span></span>
+					Relative
+				</label>
+
+
+				<input id="scatterplot-button-absolute" type="radio" name="options" autocomplete="off">
+				<label for="scatterplot-button-absolute">
+					<span></span>
+					Absolute
+				</label>
+			</div>
+			<div class="loader"></div>
+			<div id="scatterplot" style="display:none;">
+				<svg id="svg-scatterplot">
+
+				</svg>
+			</div>
+		</section>
+		<section>
+			<div id="section-choropleth" class="anchor"></div>
+			<h3>3.3. Choropleth</h3>
+			<hr class="dashed">
+			<p>
+				The scatterplot above has one big issue: we can display up to ~30 circles before we run out of space. But what if we'd love to compare countries? Even on a rectangular map with Mercador projection we need some kind of zoom. To tackle the problem we decided
+				on another, more difficult, but also interesting solution: <span class="highlight">map countries on a virtual globe</span> and let the user rotate it!
+			</p>
+			<p>
+				The main question we address is
+				<blockquote>
+					<em>How do the countries compare with each other in terms of terrorism?</em>
+				</blockquote>
+			</p>
+			<p>
+				We implemented the following cool features:
+			</p>
+			<ul>
+				<li>Choose the category (e.g., <em>Terrorist Group</em>)</li>
+				<li>Choose an item of the selected category (e.g., <em>Taliban</em>)</li>
+				<li>Choose a metric (e.g., <em>Killed</em>)</li>
+				<li>Choose the year on the slider, or move the slider slowly to animate the change in global terrorism</li>
+				<li>Click on the <em>Time Machine</em> to auto-play the animation from 1970 through 2015...</li>
+				<li>Drag the globe to rotate, or one-click on a country to jump to it</li>
+				<li>Hover over a country to display its name and the metric.</li>
+			</ul>
+			<div class="half">
+				<select id="choropleth-select-category" placeholder="Select category...">
+
+					</select>
+				<select id="choropleth-select-subcategory" placeholder="Select subcategory...">
+
+					</select>
+				<select id="choropleth-select-metric" placeholder="Select metric...">
+
+					</select>
+			</div>
+			<div class="middle">
+				<div class="slider-title">Temporal Distribution</div>
+				<div>
+					<span class="slider-min" id="choropleth-slider-min">1970</span>
+					<input class="slider-range" id="choropleth-slider-range" type="range" value="1970" min="1970" max="2015" step="1">
+					<span class="slider-max" id="choropleth-slider-max">2015</span>
+				</div>
+				<div class="slider-button">
+					<a class="btn" id="choropleth-slider-button">Time Machine</a>
+				</div>
+			</div>
+			<div class="loader"></div>
+			<div id="choropleth" style="display:none;">
+				<svg id="svg-choropleth">
+
+					</svg>
+			</div>
+		</section>
+		<section>
+			<div id="section-kmeans" class="anchor"></div>
+			<h3>3.4. K-Means</h3>
+			<hr class="dashed">
+			<p>
+				K-Means is the first algorithm in pattern recognition we'll use for analysis. Using K-Means, we can <span class="highlight">partition terrorist attacks into groups</span> (at least it's an idea) to see how the terrorism is distributed geographically.
+			</p>
+			<p>
+				The main question we address is
+				<blockquote>
+					<em>Do the terrorist attacks form some geographical groups? Are there some visual patterns to find?</em>
+				</blockquote>
+			</p>
+			<p>
+				We implemented the following cool features:
+			</p>
+			<ul>
+				<li>Choose the category (e.g., <em>Terrorist Group</em>)</li>
+				<li>Choose an item of the selected category (e.g., <em>Taliban</em>)</li>
+				<li>Choose a metric (e.g., <em>Killed</em>)</li>
+				<li>Choose the variable K which represents the number of groups (e.g., <em>3</em>)</li>
+				<li>Hover over a hexbin/centroid to display the number of enclosed attacks</li>
+				<li>Each big circle represents a centroid - the center of each partition of attacks</li>
+				<li>Hexagons of the same color belong to the same partition.</li>
+			</ul>
+			<div class="half">
+				<select id="kmeans-select-category" placeholder="Select category...">
+
+					</select>
+				<select id="kmeans-select-subcategory" placeholder="Select subcategory...">
+
+					</select>
+				<select id="kmeans-select-k" placeholder="Select K...">
+
+					</select>
+			</div>
+			<div class="loader"></div>
+			<div id="kmeans" style="display:none;">
+				<svg id="svg-kmeans">
+
+					</svg>
+			</div>
+		</section>
+		<section>
+			<div id="section-knn" class="anchor"></div>
+			<h3>3.5. K-Nearest Neighbors</h3>
+			<hr class="dashed">
+			<p>
+				The second pattern recognition algorithm is k-Nearest Neighbors, which is a classification and regression algorithm. Using kNN we are able to <span class="highlight">classify any point on the globe</span> based on its (k-) neighbors.
+			</p>
+			<p>
+				The main question we address is
+				<blockquote>
+					<em>What if we knew that a terrorist attack is going to happen somewhere on the globe, what type will it likely be?</em>
+				</blockquote>
+			</p>
+			<p>
+				We implemented the following cool features:
+			</p>
+			<ul>
+				<li>Choose the type (e.g., <em>Weapon Type</em>)</li>
+				<li>Choose the number of groups (<em>k</em>) on slider (e.g., <em>3</em>)</li>
+				<li>You can also adjust <em>k</em> by scrolling up and down</li>
+				<li>Hover over the map to classify the underlying point and display the related neighbors</li>
+			</ul>
+			<div class="half">
+				<select id="knn-select-category" placeholder="Select category...">
+
+					</select>
+			</div>
+			<div class="middle">
+				<div class="slider-title">k-Nearest Neighbors</div>
+				<div>
+					<span class="slider-min" id="knn-slider-min">2</span>
+					<input class="slider-range" id="knn-slider-range" type="range" value="50" min="2" max="100" step="1">
+					<span class="slider-max" id="knn-slider-max">100</span>
+				</div>
+			</div>
+			<div class="loader"></div>
+			<div id="knn" style="display:none;">
+				<svg id="svg-knn">
+
+					</svg>
+			</div>
+		</section>
+		<section>
+			<div id="section-further-information" class="anchor"></div>
+			<h2>4. Further Information</h2>
+			<hr class="dashed">
+			<p>
+				Some (optional-) information was skipped to shrink the size of the webpage, thus you are welcome to continue the reading in <a href="">the Explainer Notebook</a>. You may also be interested in testing the things out, for this, clone <a href="">the repository</a>,
+				download and import <a href="">the data</a>, and enjoy your analysis.
+			</p>
+			<p>
+				<span style="font-size: 20px;">😍</span>
+			</p>
+
+
+		</section>
+	</div>
+
+	<!-- Third-party libraries
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js" integrity="sha256-SG9O7IpJWlIha5Q8UIqaLFkkimE+CbubKlzSwTbdS1g=" crossorigin="anonymous"></script>
 	<script src="https://d3js.org/d3-hexbin.v0.2.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js" integrity="sha256-HyBiZFJAMvxOhZoWOc5LWIWaN1gcFi8LjS75BZF4afg=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js" integrity="sha256-PieqE0QdEDMppwXrTzSZQr6tWFX3W5KkyRVyF1zN3eg=" crossorigin="anonymous"></script>
+	-->
+
+	<script src="libraries/jquery.min.js"></script>
+	<script src="libraries/d3.min.js"></script>
+	<script src="libraries/d3-hexbin.min.js"></script>
+	<script src="libraries/selectize.min.js"></script>
 
 	<!-- D3 tip -->
 	<script src="js/third-party/d3-tip.js"></script>
-	<script src="js/third-party/kdTree.js"></script>
+	<script src="js/third-party/kdtree.js"></script>
 
 	<!-- Charts -->
 	<script src="js/histogram.js"></script>
@@ -213,21 +820,20 @@
 
 	<script src="js/loaddata.js"></script>
 	<script>
-		// Place a spinner on top of each svg until the data is loaded
-		var spinner1 = new Spinner().spin(document.getElementById("histogram"));
-		var spinner2 = new Spinner().spin(document.getElementById("scatterplot"));
-		var spinner3 = new Spinner().spin(document.getElementById("choropleth"));
-		var spinner4 = new Spinner().spin(document.getElementById("kmeans"));
-		var spinner5 = new Spinner().spin(document.getElementById("knn"));
-
 		// Callback
 		var callCharts = function() {
 
-			spinner1.stop();
-			spinner2.stop();
-			spinner3.stop();
-			spinner4.stop();
-			spinner5.stop();
+			var loaders = document.getElementsByClassName("loader");
+
+			for (var i = 0; i < loaders.length; i++) {
+				loaders[i].style.display = "none";
+			}
+
+			document.getElementById("histogram").style.display = "block";
+			document.getElementById("scatterplot").style.display = "block";
+			document.getElementById("choropleth").style.display = "block";
+			document.getElementById("kmeans").style.display = "block";
+			document.getElementById("knn").style.display = "block";
 
 			// Load charts
 			loadHistogram();

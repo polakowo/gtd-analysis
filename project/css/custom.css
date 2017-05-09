@@ -1,0 +1,91 @@
+/*
+ * Radio
+ */
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"]+label span {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin: 0px 5px 0 10px;
+    vertical-align: middle;
+    background: url(../images/check_radio_sheet.png) -38px top no-repeat;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked+label span {
+    background: url(../images/check_radio_sheet.png) -57px top no-repeat;
+}
+
+
+/*
+ * Slider
+ */
+
+div.middle {
+    text-align: center;
+	padding: 20px;
+}
+
+.slider-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.slider-range {
+    width: 80%;
+}
+
+.slider-min {
+    margin-right: 15px;
+}
+
+.slider-max {
+    margin-left: 15px;
+}
+
+.slider-button {
+    cursor: pointer;
+    cursor: hand;
+    margin-top: 10px;
+}
+
+
+/*
+ * Loader
+ */
+
+
+/* Center the loader */
+
+.loader {
+	margin: 0 auto;
+    border: 14px solid #333;
+    border-radius: 50%;
+    border-top: 14px solid #666;
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

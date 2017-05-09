@@ -159,7 +159,7 @@ function loadHistogram() {
 	////////// Bar color //////////
 	///////////////////////////////
 
-	var customColours = ["#C7C7C7", "#1F77B4"];
+	var customColours = ["#1F77B4", "#17BECF"];
 	var cScale = d3.scaleSequential()
 		.interpolator(d3.interpolateRgbBasis(customColours));
 	var cMap = function(d) {
@@ -175,6 +175,11 @@ function loadHistogram() {
 	///////////////////////////////
 	////////// Draw bars //////////
 	///////////////////////////////
+
+	var barOpacity = {
+		inactive: 0.7,
+		active: 1
+	};
 
 	// Update bars when user changes the dataset
 	function updateBars() {
@@ -198,17 +203,17 @@ function loadHistogram() {
 			.append("rect")
 			.attr("width", xScale.bandwidth())
 			.attr("x", xMap)
-			.attr("opacity", 0.7)
+			.attr("opacity", barOpacity.inactive)
 			.on("mouseover", function(d) {
 				// Increase visibility of focus rect
 				d3.select(this)
-					.attr("opacity", 1);
+					.attr("opacity", barOpacity.active);
 				tip.show(d);
 			})
 			.on("mouseout", function(d) {
 				// Restore original values
 				d3.select(this)
-					.attr("opacity", 0.7);
+					.attr("opacity", barOpacity.inactive);
 				tip.hide(d);
 			})
 			.attr("y", function() {
@@ -239,7 +244,7 @@ function loadHistogram() {
 		.direction("ne")
 		.html(function(d) {
 			var total = d3.sum(focusDataset, getY);
-			return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getX(d) + "</span><br><hr style='border-color:grey'>" + focusMetric + ": " + (getY(d) / total * 100).toFixed(2) + "%";
+			return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + getX(d) + "</span><hr>" + focusMetric + ": " + (getY(d) / total * 100).toFixed(2) + "%";
 		});
 	svg.call(tip);
 

@@ -126,7 +126,7 @@ function loadChoropleth() {
 
 	var defs = svg.append("defs");
 
-	var customColours = ["#C7C7C7", "#1F77B4"];
+	var customColours = ["#454545", "#BCBD22", "#FF7F0E"];
 	var cScale = d3.scaleSequential()
 		.interpolator(d3.interpolateRgbBasis(customColours));
 	var cMap = function(d) {
@@ -275,6 +275,11 @@ function loadChoropleth() {
 	////////// Land //////////
 	//////////////////////////
 
+	var landOpacity = {
+		inactive: 0.7,
+		active: 1
+	};
+
 	clip.selectAll("path.land")
 		.data(this.data.worldMap.features)
 		.enter()
@@ -282,17 +287,17 @@ function loadChoropleth() {
 		.attr("clip-path", "url(#choropleth-area)")
 		.attr("class", "land")
 		.attr("d", path)
-		.attr("opacity", 0.7)
+		.attr("opacity", landOpacity.inactive)
 		.on("click", rotateGlobe)
 		.on("mouseover", function(p) {
 			if (!mouseDown) {
-				d3.select(this).attr("opacity", 1);
+				d3.select(this).attr("opacity", landOpacity.active);
 				tip.show(p);
 			}
 		})
 		.on("mouseout", function(p) {
 			if (!mouseDown) {
-				d3.select(this).attr("opacity", 0.7);
+				d3.select(this).attr("opacity", landOpacity.inactive);
 				tip.hide(p);
 			}
 		});
@@ -338,8 +343,8 @@ function loadChoropleth() {
 	var dragGlobe = d3.drag()
 		.subject(dragSubject)
 		.on("start", function() {
-			// Change to initial opacity
-			d3.select(this).attr("opacity", 0.7);
+			// Change the land being dragged to initial opacity
+			d3.select(this).attr("opacity", landOpacity.inactive);
 			mouseDown = true;
 			tip.hide();
 		})
@@ -437,10 +442,9 @@ function loadChoropleth() {
 			// Advanced terrorism information
 			if (focusDatasetById.hasOwnProperty(p.id)) {
 				var d = focusDatasetById[p.id][0];
-				return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + p.properties.name + "</span><br><hr style='border-color:grey'>" +
-					Math.round(getMetric(d) / metricSum() * 10000) / 100 + "%<br><br>(" + getMetric(d) + " out of " + metricSum() + ")</span>";
+				return "<span style='color:" + cMap(d).brighter(0.5) + "'>" + p.properties.name + "</span><br><br><hr>" + Math.round(getMetric(d) / metricSum() * 10000) / 100 + "%<br><br>(" + getMetric(d) + " out of " + metricSum() + ")";
 			} else {
-				return p.properties.name + "<br><hr style='border-color:grey'>0%<br><br>(0 out of " + metricSum() + ")";
+				return "<span style='color:" + d3.color(cScale(0)).brighter(0.5) + "'>" + p.properties.name + "</span><br><br><hr>0%<br><br>(0 out of " + metricSum() + ")";
 			}
 		});
 	svg.call(tip);
