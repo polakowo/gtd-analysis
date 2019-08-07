@@ -5,14 +5,12 @@
 #### Summary
 Social data analysis and visualization applied on the [Global Terrorism Database](https://www.start.umd.edu/gtd/). The database comprises of 150k incidents of terrorism around the globe.
 
-The focus is on creating beautiful visualizations. Instead of producing static, boring charts, we managed to develop an interactive dashboard which enables every visitor of my website to explore the terrorism in the area of their interest. For this, we used d3.js, the state-of-the-art JavaScript library for building interactive charts. 
+The focus was on creating beautiful visualizations. Instead of producing static, boring charts, we managed to develop an interactive dashboard which enables every visitor of my website to explore the terrorism in the area of their interest. For this, we used d3.js, the state-of-the-art JavaScript library for building interactive charts. 
 
 Highly encourage you to visit the [interactive website](https://polakowo.io/gtd-analysis/project/) and [explainer notebooks](https://nbviewer.jupyter.org/github/polakowo/socialdata2017/blob/master/project/jupyter/AssignmentProject-ExplainerNotebook.ipynb).
 
 #### Motivation
 The main motivation was producing beautiful and meaningful data visualizations. Here we followed a user-centric approach. For example, those who are interested in chemical weapons could in a few clicks retrieve the map showing the number of victims by country, or compare lethality of chemical weapons to that of explosives. 
-
-The dataset was rich on categorical data, and so you cannot produce enough charts to explore such a big database - there are too many category combinations. For example, "the number of injured from chemical weapons in India": just substitute "chemical weapons" with "explosives" and "India" with "Iraq" and you need a whole new visualization.
 
 #### Visualizations
 - Histogram: 
