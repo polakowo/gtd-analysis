@@ -30,9 +30,3 @@ The main motivation was producing beautiful and meaningful data visualizations. 
   - Classify any point on the map based on neighboring attacks.
   - Example: *"What is the most likely terrorist attack scenario for a given point on the map?"*
   
-#### Code
-We used Python for analysis and JavaScript+d3.js for client-side development. 
-
-The website requires no server application, just static content. Using smart preprocessing and compression enabled us to shrink the required data from 150MB to 6MB and display rich animations without sacrificing responsiveness. So all it takes is client-side JavaScript to fetch the data and do calculations in the browser. The client-side logic was built with flexibility and customization in mind. 
-
-We developed visualization tools can be easily reused for other data and extended. Only a few variables were hard-coded. For example, the values of dropdown controls are populated dynamically based on the provided data.
