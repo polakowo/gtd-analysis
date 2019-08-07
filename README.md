@@ -1,4 +1,4 @@
-# GTD Analysis
+# gtd-analysis
 
 <img width=200 src="https://africaopendata.org/uploads/group/2015-11-15-142410.774564GTD-logo.png"/>
 
