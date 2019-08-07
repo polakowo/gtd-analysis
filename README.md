@@ -1,6 +1,6 @@
 # GTD Analysis
 
-<img width=100 src="https://africaopendata.org/uploads/group/2015-11-15-142410.774564GTD-logo.png"/>
+<img width=200 src="https://africaopendata.org/uploads/group/2015-11-15-142410.774564GTD-logo.png"/>
 
 #### Summary
 - Social data analysis and visualization applied on the [Global Terrorism Database](https://www.start.umd.edu/gtd/). The database comprises of 150k incidents of terrorism around the globe.
