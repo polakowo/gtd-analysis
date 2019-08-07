@@ -15,20 +15,20 @@ The main motivation was producing beautiful and meaningful data visualizations. 
 #### Visualizations
 - Histogram: 
   - Highlight temporal development of terrorism.
-  - "How many terrorist attacks has Western Europe experienced in recent years?"
+  - Example: *"How many terrorist attacks has Western Europe experienced in recent years?"*
 - Scatterplot:
   - Compare different categories, such as weapon types, attack types and target groups.
-  - "How do chemical weapons compare to explosives in terms of lethality?"
+  - Example: *"How do chemical weapons compare to explosives in terms of lethality?"*
 - Choropleth map: 
   - Highlight geographical development of terrorism.
   - Created a time machine feature to animate how terrorism formed in each country of the years.
-  - "What are the most dangerous regions for tourists?"
+  - Example: *"What are the most dangerous regions for tourists?"*
 - K-means clustering:
   - Cluster 150,000 terrorist attacks and identify their regional centers.
-  - "What are regional clusters of armed assaults?"
+  - Example: *"What are regional clusters of armed assaults?"*
 - K-nearest neighbors:
   - Classify any point on the map based on neighboring attacks.
-  - "What is the most likely terrorist attack scenario for a given point on the map?"
+  - Example: *"What is the most likely terrorist attack scenario for a given point on the map?"*
   
 #### Code
 We used Python for analysis and JavaScript+d3.js for client-side development. 
