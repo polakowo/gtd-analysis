@@ -1,7 +1,5 @@
 # GTD Analysis
 
-### Social data analysis and visualization
-
 <img width=100 src="https://africaopendata.org/uploads/group/2015-11-15-142410.774564GTD-logo.png"/>
 
 #### Summary
