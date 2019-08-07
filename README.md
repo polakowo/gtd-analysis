@@ -10,7 +10,9 @@ The focus is on creating beautiful visualizations. Instead of producing static, 
 Highly encourage you to visit the [interactive website](https://polakowo.io/gtd-analysis/project/) and [explainer notebooks](https://nbviewer.jupyter.org/github/polakowo/socialdata2017/blob/master/project/jupyter/AssignmentProject-ExplainerNotebook.ipynb).
 
 #### Motivation
-The main motivation was producing beautiful and meaningful data visualizations. Here we followed a user-centric approach. For example, those who are interested in chemical weapons could in a few clicks retrieve the map showing the number of victims by country, or compare lethality of chemical weapons to that of explosives. The dataset was rich on categorical data, and so you cannot produce enough charts to explore such a big database - there are too many category combinations. For example, "the number of injured from chemical weapons in India": just substitute "chemical weapons" with "explosives" and "India" with "Iraq" and you need a whole new visualization.
+The main motivation was producing beautiful and meaningful data visualizations. Here we followed a user-centric approach. For example, those who are interested in chemical weapons could in a few clicks retrieve the map showing the number of victims by country, or compare lethality of chemical weapons to that of explosives. 
+
+The dataset was rich on categorical data, and so you cannot produce enough charts to explore such a big database - there are too many category combinations. For example, "the number of injured from chemical weapons in India": just substitute "chemical weapons" with "explosives" and "India" with "Iraq" and you need a whole new visualization.
 
 #### Visualizations
 - Histogram: 
